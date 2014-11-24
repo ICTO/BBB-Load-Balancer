@@ -1,0 +1,19 @@
+bbb_load_balancer_theme:
+    resource: "@BBBLoadBalancerThemeBundle/Controller/"
+    type:     annotation
+    prefix:   /
+
+bbb_load_balancer_admin:
+    resource: "@BBBLoadBalancerAdminBundle/Controller/"
+    type:     annotation
+    prefix:   /
+bbb_load_balancer_user:
+    resource: "@BBBLoadBalancerUserBundle/Controller/"
+    type:     annotation
+    prefix:   /
+root:
+    path:     /
+    defaults:
+        _controller: FrameworkBundle:Redirect:redirect
+        route: dashboard
+        permanent: true

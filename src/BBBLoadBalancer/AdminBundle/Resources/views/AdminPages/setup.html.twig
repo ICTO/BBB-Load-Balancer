@@ -1,0 +1,67 @@
+{% extends 'BBBLoadBalancerThemeBundle::bootstrap.html.twig' %}
+
+{% block body_class %}setup{% endblock %}
+
+{% block content %}
+	<h1>Setup</h1>
+	{% if setup_done %}
+	    <div class="alert alert-warning" role="alert">
+	      <strong>Warning!</strong> Setup is already done
+	    </div>
+	{% else %}
+	  <div class="panel panel-default">
+	  	<div class="panel-heading">Create an admin user</div>
+		  <div class="panel-body">
+			  <form action="{{ path("setup") }}" method="post" class="form-horizontal" role="form">
+			    {% if errors %}
+			    	{% for error in errors %}
+				        <div class="alert alert-danger" role="alert">
+				          <strong>Error!</strong> {{ error.message }}
+				        </div>
+			    	{% endfor %}
+			    {% endif %}
+			    <div class="form-group">
+				    <label for="inputFirstName" class="col-sm-2 control-label">First name</label>
+				    <div class="col-sm-7">
+				    	<input type="text" id="inputFirstNam" name="firstName" class="form-control" placeholder="First name" required autofocus>
+				    </div>
+				</div>
+				<div class="form-group">
+				    <label for="inputLastName" class="col-sm-2 control-label">Last name</label>
+				    <div class="col-sm-7">
+				    	<input type="text" id="inputFirstNam" name="lastName" class="form-control" placeholder="Last name" required>
+				    </div>
+			    </div>
+				<div class="form-group">
+				    <label for="inputEmail" class="col-sm-2 control-label">Email address</label>
+				    <div class="col-sm-7">
+				    	<input type="email" id="inputEmail" name="email" class="form-control" placeholder="Email address" required>
+				    </div>
+			    </div>
+				<div class="form-group">
+				    <label for="inputPassword" class="col-sm-2 control-label">Password</label>
+				    <div class="col-sm-7">
+				    	<input type="password" id="inputPassword" name="plainPassword" class="form-control" placeholder="Password" required>
+				    </div>
+				</div>
+				<div class="form-group">
+				    <label for="inputTimezone" class="col-sm-2 control-label">Timezone</label>
+				    <div class="col-sm-7">
+				    	<select class="form-control" name="timezone">
+				    		{% for key, timezone in timezones%}
+				    			<option value="{{ key }}" {% if key == default_timezone %}selected{% endif %}>{{ timezone }}</option>
+				    		{% endfor %}
+						</select>
+				    </div>
+				</div>
+
+				<div class="form-group">
+					<div class="col-md-offset-2 col-sm-10">
+			    		<button class="btn btn-primary" type="submit">Create admin user</button>
+			    	</div>
+			    </div>
+			  </form>
+		  </div>
+		</div>
+	{% endif %}
+{% endblock %}

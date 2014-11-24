@@ -1,0 +1,32 @@
+security:
+    encoders:
+        BBBLoadBalancer\UserBundle\Document\User:
+            algorithm: sha512
+            iterations: 3
+            encode_as_base64: false
+
+    providers:
+        userbundle:
+            mongodb: {class: BBBLoadBalancer\UserBundle\Document\User}
+
+    firewalls:
+        user_login:
+            pattern: ^/.*
+            form_login:
+                login_path:  login
+                check_path:  login_check
+                username_parameter: _email
+                password_parameter: _password
+            remember_me:
+                key: qaerqsdfvwazerqsdf
+                lifetime: 31536000
+                remember_me_parameter: _remember_me
+            logout:
+                path: logout
+                target: login
+            anonymous:    true
+            context: user_login_context
+
+    access_control:
+        - { path: ^/admin, role: IS_AUTHENTICATED_REMEMBERED }
+        - { path: ^/user, role: IS_AUTHENTICATED_REMEMBERED }
