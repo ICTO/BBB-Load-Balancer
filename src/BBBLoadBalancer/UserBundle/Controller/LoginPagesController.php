@@ -7,12 +7,8 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Symfony\Component\Security\Core\SecurityContext;
-use BBBLoadBalancer\UserBundle\Form\Type\LoginFormType;
-use BBBLoadBalancer\UserBundle\Form\Type\ForgotPasswordFormType;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\Form\FormError;
 use Symfony\Component\HttpFoundation\Response;
-use BBBLoadBalancer\UserBundle\Form\Type\ResetPasswordFormType;
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
@@ -43,12 +39,7 @@ class LoginPagesController extends Controller
             $session->remove(SecurityContext::AUTHENTICATION_ERROR);
         }
 
-        $form = $this->createForm(new LoginFormType());
-
-        $form->get("_email")->setData($session->get(SecurityContext::LAST_USERNAME));
-
         return array(
-                'form'          => $form->createView(),
                 'last_username' => $session->get(SecurityContext::LAST_USERNAME),
                 'error'         => $error
         );
@@ -79,30 +70,28 @@ class LoginPagesController extends Controller
      * @Method({"GET", "POST"})
      */
     public function forgotPasswordAction(Request $request){
-        $form = $this->createForm(new ForgotPasswordFormType());
+        $email = "";
+        $error = false;
+        $success = false;
+
         if($request->getMethod() == 'POST'){
-            $form->bind($request);
-            $user = $this->get('user')->getUserBy( array('email' => $form->get("email")->getData()));
+            $email = $request->get('email');
+            $user = $this->get('user')->getUserBy( array('email' => $email));
             if(!is_object($user)){
-                $form->get('email')->addError(new FormError("userbundle.controller.loginpages.forgotpassword.email_error"));
-            }
-            else if(!$user->getEnabled()){
-                $invitation_url = $session->get('_security.user_login.target_path');
-                $this->get('user')->sendActivation($user, $invitation_url);
-                $form->get('email')->addError(new FormError("userbundle.controller.loginpages.forgotpassword.notenabled"));
+                $error = "No user found with this email address.";
             }
             else {
                 if($this->get('user')->sendForgotPassword($user)){
-                    $this->get('message')->success('userbundle.controller.loginpages.forgotpassword.check_email', array('%email%' => $user->getEmail()));
+                    $success = "You received an email to change your password";
                 }else{
-                    $this->get('message')->error('userbundle.controller.loginpages.forgotpassword.sendemail_error');
+                    $error = "Failed sending email.";
                 }
-
-                return $this->get('ajaxify')->closePopup();
             }
         }
         return array(
-            'form' => $form->createView()
+            'email' => $email,
+            'error' => $error,
+            'success' => $success
         );
     }
 
@@ -119,24 +108,36 @@ class LoginPagesController extends Controller
             throw new AccessDeniedHttpException();
         }
 
-        $form = $this->createForm(new ResetPasswordFormType(), $user);
+        $user_errors = array();
+        $error = false;
+        $success = false;
         if($request->getMethod() == 'POST'){
-            $form->bind($request);
-            if($form->isValid()){
-                // convert password
+            $plainPassword1 = $request->get('plainPassword1');
+            $plainPassword2 = $request->get('plainPassword2');
+
+            if($plainPassword1 != $plainPassword2){
+                $error = "Passwords do not match";
+            }
+            else {
+                $user->setPlainPassword($plainPassword1);
                 $factory = $this->get('security.encoder_factory');
                 $encoder = $factory->getEncoder($user);
-                $password = $encoder->encodePassword($form->get("plainPassword")->getData(), $user->getSalt());
+                $password = $encoder->encodePassword($plainPassword1, $user->getSalt());
                 $user->setPassword($password);
-                $this->get('user')->saveUser($user);
 
-                $this->get('message')->success('userbundle.controller.loginpages.resetpassword.changed');
+                // validate user
+                $user_errors = $this->get('validator')->validate($user);
+                if(!$user_errors->count()){
+                    $this->get('user')->saveUser($user);
+                    $success = "Changed password.";
+                }
             }
         }
         return array(
-            'user_secret_key' => $user_secret_key,
-            'user_id' => $user_id,
-            'form' => $form->createView()
+            'user' => $user,
+            'user_errors' => $user_errors,
+            'error' => $error,
+            'success' => $success,
         );
     }
 }

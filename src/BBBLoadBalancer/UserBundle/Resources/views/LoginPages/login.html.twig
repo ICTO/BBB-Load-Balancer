@@ -3,7 +3,7 @@
 {% block body_class %}login{% endblock %}
 
 {% block content %}
-  <form action="{{ path("login_check") }}" {{ form_enctype(form) }} method="post" class="form-signin" role="form">
+  <form action="{{ path("login_check") }}" method="post" class="form-signin" role="form">
     <h2 class="form-signin-heading">Please sign in</h2>
     {% if error %}
         <div class="alert alert-danger" role="alert">
@@ -11,7 +11,7 @@
         </div>
     {% endif %}
     <label for="inputEmail" class="sr-only">Email address</label>
-    <input type="email" id="inputEmail" name="_email" class="form-control" placeholder="Email address" required autofocus>
+    <input type="email" id="inputEmail" name="_email" class="form-control" placeholder="Email address" value="{{ last_username }}" required autofocus>
     <label for="inputPassword" class="sr-only">Password</label>
     <input type="password" id="inputPassword" name="_password" class="form-control" placeholder="Password" required>
     <div class="checkbox">
@@ -20,5 +20,6 @@
       </label>
     </div>
     <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
+    <a href="{{ path("forgot_password") }}">Forgot Password</a>
   </form>
 {% endblock %}

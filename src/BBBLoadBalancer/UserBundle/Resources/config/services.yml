@@ -1,4 +1,4 @@
 services:
     user:
         class: BBBLoadBalancer\UserBundle\Service\UserService
-        arguments: [ @doctrine_mongodb, @security.context, @mailer, %app.email_noreply%, %app.email_name%, %app.site_name%, @translator, @templating ]
+        arguments: [ @doctrine_mongodb, @security.context, @mailer, %app.email_noreply%, %app.email_name%, %app.site_name%, @templating ]

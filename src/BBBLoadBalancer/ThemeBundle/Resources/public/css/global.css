@@ -43,4 +43,17 @@ body.login {
   border-top-right-radius: 0;
 }
 
-/* Setup */
+/* Forgot password */
+.form-forgot-password {
+  max-width: 330px;
+  padding: 15px;
+  margin: 0 auto;
+}
+.form-group .alert{
+  margin-bottom: 0px;
+}
+.form-pass-reset{
+  max-width: 330px;
+  padding: 15px;
+  margin: 0 auto;
+}

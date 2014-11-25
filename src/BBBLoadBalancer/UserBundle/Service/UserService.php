@@ -112,29 +112,6 @@ class UserService
     }
 
     /**
-     * Send activation
-     */
-    public function sendActivation(User $user, $invitation_url = false){
-
-        $subject = "Activate account on " . $this->site_name;
-
-        $message = \Swift_Message::newInstance()
-            ->setSubject($subject)
-            ->setFrom(array($this->email_noreply => $this->email_name))
-            ->setTo($user->getEmail())
-            ->setBody(
-                $this->templating->render(
-                    'BBBLoadBalancerUserBundle:RegistrationPages:activationEmail.html.twig',
-                    array(
-                        'user' => $user,
-                        'invitation_url' => $invitation_url,
-                    )
-                )
-            , 'text/html');
-        return $this->mailer->send($message);
-    }
-
-    /**
      * Send forget password mail
      */
     public function sendForgotPassword(User $user){
@@ -147,7 +124,7 @@ class UserService
             ->setTo($user->getEmail())
             ->setBody(
                 $this->templating->render(
-                    'BBBLoadBalancerUserBundle:RegistrationPages:forgotPasswordEmail.html.twig',
+                    'BBBLoadBalancerUserBundle:LoginPages:forgotPasswordEmail.html.twig',
                     array(
                         'user' => $user
                     )
