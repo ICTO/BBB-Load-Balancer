@@ -19,7 +19,7 @@
   </head>
 
   <body class="{% block body_class %}{% endblock %}">
-
+  {% block body %}
     {% block navigation %}
     {% endblock %}
 
@@ -27,7 +27,7 @@
       {% block content %}
       {% endblock %}
     </div>
-
+  {% endblock %}
   {% block javascripts %}
       {% javascripts
           '@BBBLoadBalancerThemeBundle/Resources/public/js/jquery-1.11.1.min.js'

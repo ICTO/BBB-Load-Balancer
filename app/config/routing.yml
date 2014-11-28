@@ -15,5 +15,5 @@ root:
     path:     /
     defaults:
         _controller: FrameworkBundle:Redirect:redirect
-        route: dashboard
+        route: admin
         permanent: true

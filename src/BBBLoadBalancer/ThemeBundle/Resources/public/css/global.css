@@ -57,3 +57,14 @@ body.login {
   padding: 15px;
   margin: 0 auto;
 }
+/* Admin */
+body.admin{
+  background-color: white;
+}
+input{
+  margin-bottom: 10px;
+  min-width: 150px;
+}
+.btn{
+  margin: 2px;
+}

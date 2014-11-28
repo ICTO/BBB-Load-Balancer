@@ -26,7 +26,7 @@ class LoginPagesController extends Controller
 
         // if authenticated, Go to the wall page, this redirect almost never heppens because frontpage redirects.
         if( $this->get('security.context')->isGranted('IS_AUTHENTICATED_REMEMBERED') ) {
-            return new RedirectResponse($this->get('router')->generate('dashboard'));
+            return new RedirectResponse($this->get('router')->generate('admin'));
         }
 
         // get the login error if there is one

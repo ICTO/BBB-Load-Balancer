@@ -1,0 +1,63 @@
+{% extends 'BBBLoadBalancerThemeBundle::bootstrap.html.twig' %}
+
+{% block title %}Admin | BBB Load balancer{% endblock %}
+
+{% block body_class %}admin{% endblock %}
+
+{% block body %}
+  {{ source('@templates/index.html') }}
+  {{ source('@templates/navigation.html') }}
+  {{ source('@templates/users.html') }}
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script>
+    var host_path = "{{ url('root') ~ "api" }}";
+    </script>
+    {% javascripts
+        '@BBBLoadBalancerThemeBundle/Resources/public/js/noty/jquery.noty.js'
+        '@BBBLoadBalancerThemeBundle/Resources/public/js/noty/jquery.noty.topcenter.js'
+        '@BBBLoadBalancerThemeBundle/Resources/public/js/noty/theme_default.js'
+        '@BBBLoadBalancerThemeBundle/Resources/public/js/handlebars-v1.3.0.js'
+        '@BBBLoadBalancerThemeBundle/Resources/public/js/ember.js'
+        '@BBBLoadBalancerThemeBundle/Resources/public/js/ember-data.js'
+        '@BBBLoadBalancerAdminBundle/Resources/public/js/application.js'
+        '@BBBLoadBalancerAdminBundle/Resources/public/js/router.js'
+        '@BBBLoadBalancerAdminBundle/Resources/public/js/models/user.js'
+        '@BBBLoadBalancerAdminBundle/Resources/public/js/views/edit_user_view.js'
+        '@BBBLoadBalancerAdminBundle/Resources/public/js/controllers/user_controller.js'
+        '@BBBLoadBalancerAdminBundle/Resources/public/js/controllers/users_controller.js'
+        filter='?uglifyjs2' %}
+        <script src="{{ asset_url }}"></script>
+    {% endjavascripts %}
+    <script>
+    // noty defaults
+    $.noty.defaults = {
+        layout: 'topCenter',
+        theme: 'defaultTheme',
+        type: 'alert',
+        text: '',
+        dismissQueue: true, // If you want to use queue feature set this true
+        template: '<div class="noty_message"><span class="noty_text"></span><div class="noty_close"></div></div>',
+        animation: {
+          open: {height: 'toggle'},
+          close: {height: 'toggle'},
+          easing: 'swing',
+          speed: 500 // opening & closing animation speed
+        },
+        timeout: 5000, // delay for closing event. Set false for sticky notifications
+        force: false, // adds notification to the beginning of queue when set to true
+        modal: false,
+        closeWith: ['click'], // ['click', 'button', 'hover']
+        callback: {
+          onShow: function() {},
+          afterShow: function() {},
+          onClose: function() {},
+          afterClose: function() {}
+        },
+        buttons: false // an array of buttons
+    };
+
+    </script>
+{% endblock %}

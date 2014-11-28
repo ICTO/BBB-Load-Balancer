@@ -32,12 +32,14 @@ twig:
         site_name: %app.site_name%
         domain: %app.domain%
         email: %app.email%
+    paths:
+        "%kernel.root_dir%/../src/BBBLoadBalancer/AdminBundle/Resources/public/js/templates": templates
 
 # Assetic Configuration
 assetic:
     debug:          "%kernel.debug%"
     use_controller: false
-    bundles:        [ "BBBLoadBalancerThemeBundle" ]
+    bundles:        [ "BBBLoadBalancerThemeBundle", "BBBLoadBalancerAdminBundle" ]
     #java: /usr/bin/java
     filters:
         cssrewrite: ~

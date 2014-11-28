@@ -11,15 +11,14 @@ use Symfony\Component\HttpFoundation\Request;
 class AdminPagesController extends Controller
 {
     /**
-     * @Route("/admin/dashboard", name="dashboard")
+     * @Route("/admin", name="admin")
      * @Method({"GET"})
      * @Template()
      */
-    public function dashboardAction()
+    public function adminAction()
     {
-        return array(
-            'user' => $this->get('user')->getActiveUser()
-        );
+        // This page return an EmberJS application
+        return array();
     }
 
     /**
@@ -65,7 +64,7 @@ class AdminPagesController extends Controller
             if(!$errors->count()){
                 $this->get('user')->saveUser($user);
                 $this->get('user')->userLogin($user);
-                return $this->redirect($this->generateUrl("dashboard"));
+                return $this->redirect($this->generateUrl("admin"));
             }
     	}
 

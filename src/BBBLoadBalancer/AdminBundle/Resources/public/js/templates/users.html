@@ -1,0 +1,68 @@
+<script type="text/x-handlebars" data-template-name="index/users">
+	<div class="table-responsive">
+	  <table class="table table-hover table-striped">
+	  	<tr>
+		  	<th>Name</th>
+		  	<th>Email</th>
+		  	<th>Timezone</th>
+		  	<th>Password</th>
+		  	<th>Actions</th>
+	  	</tr>
+	    {{#each user in model itemController="indexUser"}}
+	  	<tr>
+		  	<td>
+		  		{{#if user.isEditing }}
+		  			{{edit-user-firstname class="form-control" placeholder="First name" value=user.firstName }}
+		  			{{input type="text" class="form-control" placeholder="Last name" value=user.lastName }}
+  			    {{else}}
+  			    <div>{{user.firstName}} {{user.lastName}}</div>
+		  		{{/if }}
+		  	</td>
+		  	<td>
+				{{#if user.isEditing }}
+			  		{{input type="email" class="form-control" placeholder="Email" value=user.email }}
+  			    {{else}}
+  			    	<div>{{user.email}}</div>
+		  		{{/if }}
+		  	<td>
+				{{#if user.isEditing }}
+		  			{{input type="text" class="form-control" placeholder="Timezone" value=user.timezone }}
+  			    {{else}}
+  			    	<div>{{user.timezone}}</div>
+		  		{{/if }}
+		  	</td>
+		  	<td>
+				{{#if user.isEditing }}
+		  			{{input type="password" class="form-control" value=user.password1 placeholder="New password" }}
+	  			    {{input type="password" class="form-control" value=user.password2 placeholder="Repeat password" }}
+	  			    <button type="button" class="btn btn-primary btn-sm pull-right" {{action "saveUser" on="click"}}>Save</button>
+    				<button type="button" class="btn btn-danger btn-sm pull-right" {{action "removeUser" on="click"}}>Remove</button>
+  			    {{else}}
+  			    	<div>-</div>
+		  		{{/if }}
+		  	</td>
+		  	<td><button type="button" class="btn btn-primary btn-xs" {{action "toggleEditUser" on="click"}}>Edit</button></td>
+	  	</tr>
+	    {{/each}}
+	  	{{#if isAdding }}
+	  	<tr>
+		  	<td>
+	  			{{input type="text" class="form-control" placeholder="First name" value=newFirstName }}
+	  			{{input type="text" class="form-control" placeholder="Last name" value=newLastName }}
+		  	</td>
+		  	<td>
+		  	  {{input type="email" class="form-control" placeholder="Email" value=newEmail }}</td>
+		  	<td>
+		  	  {{input type="text" class="form-control" placeholder="Timezone" value=newTimezone }}</td>
+		  	<td>
+		  	  {{input type="password" class="form-control" value=newPlainPassword1 placeholder="New password" }}
+  			  {{input type="password" class="form-control" value=newPlainPassword2 placeholder="Repeat password" }}
+  			  <button type="button" class="btn btn-primary btn-sm pull-right" {{action "addUser" on="click"}}>Save</button>
+		  	</td>
+		  	<td></td>
+	  	</tr>
+	  	{{/if}}
+	  </table>
+	</div>
+	<button type="button" class="btn btn-primary btn-sm" {{action "toggleIsAdding" on="click"}}>Add User</button>
+</script>

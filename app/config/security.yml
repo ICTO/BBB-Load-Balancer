@@ -29,4 +29,4 @@ security:
 
     access_control:
         - { path: ^/admin, role: IS_AUTHENTICATED_REMEMBERED }
-        - { path: ^/user, role: IS_AUTHENTICATED_REMEMBERED }
+        - { path: ^/api, role: IS_AUTHENTICATED_REMEMBERED }
