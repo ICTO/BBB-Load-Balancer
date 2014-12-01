@@ -8,6 +8,7 @@
   {{ source('@templates/index.html') }}
   {{ source('@templates/navigation.html') }}
   {{ source('@templates/users.html') }}
+  {{ source('@templates/servers.html') }}
 {% endblock %}
 
 {% block javascripts %}
@@ -23,11 +24,15 @@
         '@BBBLoadBalancerThemeBundle/Resources/public/js/ember.js'
         '@BBBLoadBalancerThemeBundle/Resources/public/js/ember-data.js'
         '@BBBLoadBalancerAdminBundle/Resources/public/js/application.js'
-        '@BBBLoadBalancerAdminBundle/Resources/public/js/router.js'
-        '@BBBLoadBalancerAdminBundle/Resources/public/js/models/user.js'
-        '@BBBLoadBalancerAdminBundle/Resources/public/js/views/edit_user_view.js'
         '@BBBLoadBalancerAdminBundle/Resources/public/js/controllers/user_controller.js'
         '@BBBLoadBalancerAdminBundle/Resources/public/js/controllers/users_controller.js'
+        '@BBBLoadBalancerAdminBundle/Resources/public/js/controllers/server_controller.js'
+        '@BBBLoadBalancerAdminBundle/Resources/public/js/controllers/servers_controller.js'
+        '@BBBLoadBalancerAdminBundle/Resources/public/js/views/edit_user_view.js'
+        '@BBBLoadBalancerAdminBundle/Resources/public/js/models/user.js'
+        '@BBBLoadBalancerAdminBundle/Resources/public/js/models/server.js'
+        '@BBBLoadBalancerAdminBundle/Resources/public/js/router.js'
+
         filter='?uglifyjs2' %}
         <script src="{{ asset_url }}"></script>
     {% endjavascripts %}

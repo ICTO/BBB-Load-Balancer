@@ -19,7 +19,9 @@ class UserAPIController extends Controller
      */
     public function usersAction(Request $request)
     {
-        $return = array();
+        $return = array(
+            'users' => array()
+        );
 
         // return active user
         if($request->get('active')){

@@ -1,0 +1,4 @@
+services:
+    server:
+        class: BBBLoadBalancer\AdminBundle\Service\ServerService
+        arguments: [ @doctrine_mongodb ]

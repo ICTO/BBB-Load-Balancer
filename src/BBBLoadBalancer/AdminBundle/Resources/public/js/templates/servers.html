@@ -1,0 +1,81 @@
+<script type="text/x-handlebars" data-template-name="index/servers">
+	<div class="table-responsive">
+	  <table class="table table-hover table-striped">
+	  	<tr>
+		  	<th>Name</th>
+		  	<th>URL</th>
+		  	<th>Up</th>
+		  	<th>Enabled</th>
+		  	<th>Actions</th>
+	  	</tr>
+	    {{#each server in model itemController="indexServer"}}
+	  	<tr>
+		  	<td>
+		  		{{#if server.isEditing }}
+		  			{{input type="text" class="form-control" placeholder="Name" value=server.name }}
+  			    {{else}}
+  			    <div>{{server.name}}</div>
+		  		{{/if }}
+		  	</td>
+		  	<td>
+				{{#if server.isEditing }}
+			  		{{input type="text" class="form-control" placeholder="URL" value=server.url }}
+  			    {{else}}
+  			    	<div>{{server.url}}</div>
+		  		{{/if }}
+		  	<td>
+  			    <div>
+  			    	{{#if server.up }}
+  			    		<span class="label label-success">Active</span>
+					{{else}}
+						<span class="label label-danger">Down</span>
+					{{/if}}
+  			    </div>
+		  	</td>
+		  	<td>
+				{{#if server.isEditing }}
+				<div class="checkbox">
+					<label>
+		  				{{input type="checkbox" class="" checked=server.enabled }} Enabled
+	  				</label>
+  				</div>
+  			    <button type="button" class="btn btn-primary btn-sm pull-right" {{action "saveServer" on="click"}}>Save</button>
+				<button type="button" class="btn btn-danger btn-sm pull-right" {{action "removeServer" on="click"}}>Remove</button>
+  			    {{else}}
+  			    	<div>
+  			    	{{#if server.enabled }}
+  			    		<span class="label label-success">Enabled</span>
+					{{else}}
+						<span class="label label-default">Disabled</span>
+					{{/if}}
+  			    	</div>
+		  		{{/if }}
+		  	</td>
+		  	<td><button type="button" class="btn btn-primary btn-xs" {{action "toggleEditServer" on="click"}}>Edit</button></td>
+	  	</tr>
+	    {{/each}}
+	  	{{#if isAdding }}
+	  	<tr>
+		  	<td>
+	  			{{input type="text" class="form-control" placeholder="Name" value=newName }}
+		  	</td>
+		  	<td>
+		  	  {{input type="text" class="form-control" placeholder="URL" value=newURL }}
+		  	</td>
+		  	<td>
+		  	</td>
+		  	<td>
+				<div class="checkbox">
+					<label>
+		  				{{input type="checkbox" class="" checked=newEnabled }} Enable server
+	  				</label>
+  				</div>
+  			  <button type="button" class="btn btn-primary btn-sm pull-right" {{action "addServer" on="click"}}>Save</button>
+		  	</td>
+		  	<td></td>
+	  	</tr>
+	  	{{/if}}
+	  </table>
+	</div>
+	<button type="button" class="btn btn-primary btn-sm" {{action "toggleIsAdding" on="click"}}>Add Server</button>
+</script>
