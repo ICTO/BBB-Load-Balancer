@@ -2,6 +2,9 @@ Admin.Router.map(function() {
   this.resource('index', { path: '/' }, function () {
     this.route('users', { path: '/users' });
     this.route('servers', { path: '/servers' });
+    this.resource('server', { path: '/server/:id' }, function () {
+      this.route('meetings', { path: '/meetings' });
+    });
   });
 });
 
@@ -14,6 +17,20 @@ Admin.IndexUsersRoute = Ember.Route.extend({
 Admin.IndexServersRoute = Ember.Route.extend({
   model: function() {
     return this.store.find('server');
+  }
+});
+
+Admin.ServerRoute = Ember.Route.extend({
+  model: function(params) {
+    return this.store.filter('server',{ id: params.id });
+  }
+});
+
+Admin.ServerMeetingsRoute = Ember.Route.extend({
+  model: function() {
+    serverModel = this.modelFor('server');
+    console.log(serverModel.get('id'));
+    return this.store.find('meeting',{ server_id: serverModel.get('id') });
   }
 });
 

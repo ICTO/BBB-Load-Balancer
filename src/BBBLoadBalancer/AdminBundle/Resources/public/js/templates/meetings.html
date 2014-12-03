@@ -1,0 +1,30 @@
+<script type="text/x-handlebars" data-template-name="server/meetings">
+	<div class="table-responsive">
+	  <table class="table table-hover table-striped">
+	  	<tr>
+		  	<th>Name</th>
+		  	<th>Created</th>
+		  	<th>Status</th>
+	  	</tr>
+	    {{#each meeting in model }}
+	  	<tr>
+		  	<td>
+  			    <div>{{meeting.name}}</div>
+		  	</td>
+		  	<td>
+  			    <div>{{formatDate meeting.created 'llll'}}</div>
+  			</td>
+		  	<td>
+  			    <div>
+  			    	{{#if meeting.running }}
+  			    		<span class="label label-success">Running</span>
+					{{else}}
+						<span class="label label-default">Finished</span>
+					{{/if}}
+  			    </div>
+		  	</td>
+	  	</tr>
+	    {{/each}}
+	  </table>
+	</div>
+</script>

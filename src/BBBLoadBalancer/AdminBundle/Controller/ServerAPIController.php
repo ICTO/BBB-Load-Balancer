@@ -130,4 +130,40 @@ class ServerAPIController extends Controller
 
         return new JsonResponse(array());
     }
+
+    /**
+     * @Route("api/meetings", name="meetings", defaults={"_format": "json"})
+     * @Method({"GET"})
+     */
+    public function meetingsAction(Request $request)
+    {
+        $return = array(
+            'meetings' => array()
+        );
+
+        $now = new \DateTime('now', new \DateTimeZone('UTC'));
+
+        // debug return
+        return new JsonResponse( array(
+            'meetings' => array(array(
+                'id' => 1,
+                'name' => 'test',
+                'created' => $now->format('c'),
+                'running' => false
+            )
+        )));
+
+        // return all users
+        $meetings = $this->get('meeting')->getMeetingsBy(array('id' => $request->get('server_id')));
+        foreach($meetings as $meeting){
+            $return['meetings'][] = array(
+                'id' => $meeting->getId(),
+                'name' => $meeting->getName(),
+                'created' => '',
+                'running' => false
+            );
+        }
+
+        return new JsonResponse($return);
+    }
 }

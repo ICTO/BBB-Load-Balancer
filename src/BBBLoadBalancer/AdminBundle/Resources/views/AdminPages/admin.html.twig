@@ -9,6 +9,7 @@
   {{ source('@templates/navigation.html') }}
   {{ source('@templates/users.html') }}
   {{ source('@templates/servers.html') }}
+  {{ source('@templates/meetings.html') }}
 {% endblock %}
 
 {% block javascripts %}
@@ -20,6 +21,7 @@
         '@BBBLoadBalancerThemeBundle/Resources/public/js/noty/jquery.noty.js'
         '@BBBLoadBalancerThemeBundle/Resources/public/js/noty/jquery.noty.topcenter.js'
         '@BBBLoadBalancerThemeBundle/Resources/public/js/noty/theme_default.js'
+        '@BBBLoadBalancerThemeBundle/Resources/public/js/moment-with-locales.min.js'
         '@BBBLoadBalancerThemeBundle/Resources/public/js/handlebars-v1.3.0.js'
         '@BBBLoadBalancerThemeBundle/Resources/public/js/ember.js'
         '@BBBLoadBalancerThemeBundle/Resources/public/js/ember-data.js'
@@ -28,9 +30,10 @@
         '@BBBLoadBalancerAdminBundle/Resources/public/js/controllers/users_controller.js'
         '@BBBLoadBalancerAdminBundle/Resources/public/js/controllers/server_controller.js'
         '@BBBLoadBalancerAdminBundle/Resources/public/js/controllers/servers_controller.js'
-        '@BBBLoadBalancerAdminBundle/Resources/public/js/views/edit_user_view.js'
+        '@BBBLoadBalancerAdminBundle/Resources/public/js/views/views.js'
         '@BBBLoadBalancerAdminBundle/Resources/public/js/models/user.js'
         '@BBBLoadBalancerAdminBundle/Resources/public/js/models/server.js'
+        '@BBBLoadBalancerAdminBundle/Resources/public/js/models/meeting.js'
         '@BBBLoadBalancerAdminBundle/Resources/public/js/router.js'
 
         filter='?uglifyjs2' %}

@@ -51,7 +51,11 @@
   			    	</div>
 		  		{{/if }}
 		  	</td>
-		  	<td><button type="button" class="btn btn-primary btn-xs" {{action "toggleEditServer" on="click"}}>Edit</button></td>
+		  	<td>
+		  		{{#link-to "server.meetings" server class="btn btn-primary btn-xs" }}List meetings{{/link-to}}
+		  		<button type="button" class="btn btn-primary btn-xs" {{action "toggleEditServer" on="click"}}>Edit</button>
+		  	</td>
+
 	  	</tr>
 	    {{/each}}
 	  	{{#if isAdding }}

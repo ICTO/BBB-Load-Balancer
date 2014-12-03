@@ -4,8 +4,6 @@ namespace BBBLoadBalancer\AdminBundle\Service;
 
 use BBBLoadBalancer\AdminBundle\Document\Server;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
-use \DateTime;
-use \DateTimeZone;
 
 class ServerService
 {
