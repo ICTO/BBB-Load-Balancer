@@ -10,10 +10,37 @@
 
     <!-- Bootstrap core CSS -->
     {% block stylesheets %}
-        {% stylesheets '@BBBLoadBalancerThemeBundle/Resources/public/bootstrap/css/bootstrap.min.css'
-                       '@BBBLoadBalancerThemeBundle/Resources/public/css/global.css'
+        {% stylesheets '%kernel.root_dir%/../vendor/twitter/bootstrap/dist/css/bootstrap.css'
+                       '%kernel.root_dir%/../vendor/twitter/bootstrap/dist/css/bootstrap-theme.css'
+                       'bundles/bbbloadbalancertheme/css/global.css'
                         filter='cssrewrite' filter='?uglifycss' %}
             <link rel="stylesheet" href="{{ asset_url }}" />
+        {% endstylesheets %}
+        {% stylesheets
+            output='/css/bootstrap.css.map'
+                   '%kernel.root_dir%/../vendor/twitter/bootstrap/dist/css/bootstrap.css.map'
+            output='/css/bootstrap-theme.css.map'
+                   '%kernel.root_dir%/../vendor/twitter/bootstrap/dist/css/bootstrap-theme.css.map' %}
+        {% endstylesheets %}
+        {% stylesheets
+            output='/css/bootstrap.css.map'
+                   '%kernel.root_dir%/../vendor/twitter/bootstrap/dist/css/bootstrap.css.map' %}
+        {% endstylesheets %}
+        {% stylesheets
+            output='/fonts/glyphicons-halflings-regular.eot'
+                   '%kernel.root_dir%/../vendor/twitter/bootstrap/dist/fonts/glyphicons-halflings-regular.eot' %}
+        {% endstylesheets %}
+        {% stylesheets
+            output='/fonts/glyphicons-halflings-regular.svg'
+                   '%kernel.root_dir%/../vendor/twitter/bootstrap/dist/fonts/glyphicons-halflings-regular.svg' %}
+        {% endstylesheets %}
+        {% stylesheets
+            output='/fonts/glyphicons-halflings-regular.ttf'
+                   '%kernel.root_dir%/../vendor/twitter/bootstrap/dist/fonts/glyphicons-halflings-regular.ttf' %}
+        {% endstylesheets %}
+        {% stylesheets
+            output='/fonts/glyphicons-halflings-regular.woff'
+                   '%kernel.root_dir%/../vendor/twitter/bootstrap/dist/fonts/glyphicons-halflings-regular.woff' %}
         {% endstylesheets %}
     {% endblock %}
   </head>
@@ -30,8 +57,8 @@
   {% endblock %}
   {% block javascripts %}
       {% javascripts
-          '@BBBLoadBalancerThemeBundle/Resources/public/js/jquery-1.11.1.min.js'
-          '@BBBLoadBalancerThemeBundle/Resources/public/bootstrap/js/bootstrap.min.js'
+          '%kernel.root_dir%/../vendor/components/jquery/jquery.js'
+          '%kernel.root_dir%/../vendor/twitter/bootstrap/dist/js/bootstrap.js'
           filter='?uglifyjs2' %}
           <script src="{{ asset_url }}"></script>
       {% endjavascripts %}

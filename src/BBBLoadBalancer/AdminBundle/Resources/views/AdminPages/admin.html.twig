@@ -5,10 +5,11 @@
 {% block body_class %}admin{% endblock %}
 
 {% block body %}
-  {{ source('@templates/index.html') }}
+  {{ source('@templates/application.html') }}
   {{ source('@templates/navigation.html') }}
   {{ source('@templates/users.html') }}
   {{ source('@templates/servers.html') }}
+  {{ source('@templates/server.html') }}
   {{ source('@templates/meetings.html') }}
 {% endblock %}
 
@@ -18,13 +19,13 @@
     var host_path = "{{ url('root') ~ "api" }}";
     </script>
     {% javascripts
-        '@BBBLoadBalancerThemeBundle/Resources/public/js/noty/jquery.noty.js'
-        '@BBBLoadBalancerThemeBundle/Resources/public/js/noty/jquery.noty.topcenter.js'
-        '@BBBLoadBalancerThemeBundle/Resources/public/js/noty/theme_default.js'
-        '@BBBLoadBalancerThemeBundle/Resources/public/js/moment-with-locales.min.js'
-        '@BBBLoadBalancerThemeBundle/Resources/public/js/handlebars-v1.3.0.js'
-        '@BBBLoadBalancerThemeBundle/Resources/public/js/ember.js'
-        '@BBBLoadBalancerThemeBundle/Resources/public/js/ember-data.js'
+        '%kernel.root_dir%/../vendor/components/handlebars.js/handlebars.js'
+        '%kernel.root_dir%/../vendor/brunogoossens/ember/ember.js'
+        '%kernel.root_dir%/../vendor/brunogoossens/ember-data/ember-data.js'
+        '%kernel.root_dir%/../vendor/eleiva/yii2-noty/assets/jquery.noty.js'
+        '%kernel.root_dir%/../vendor/eleiva/yii2-noty/assets/noty.bootstrap.js'
+        '%kernel.root_dir%/../vendor/moment/moment/moment.js'
+
         '@BBBLoadBalancerAdminBundle/Resources/public/js/application.js'
         '@BBBLoadBalancerAdminBundle/Resources/public/js/controllers/user_controller.js'
         '@BBBLoadBalancerAdminBundle/Resources/public/js/controllers/users_controller.js'

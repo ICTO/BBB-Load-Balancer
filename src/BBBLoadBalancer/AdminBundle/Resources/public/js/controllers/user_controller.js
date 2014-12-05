@@ -1,4 +1,4 @@
-Admin.IndexUserController = Ember.ObjectController.extend({
+Admin.UserController = Ember.ObjectController.extend({
   isEditing: false,
   actions: {
     toggleEditUser: function() {

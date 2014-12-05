@@ -1,4 +1,4 @@
-Admin.IndexServersController = Ember.ObjectController.extend({
+Admin.ServersController = Ember.ObjectController.extend({
   newName: '',
   newURL: '',
   newEnabled: true,

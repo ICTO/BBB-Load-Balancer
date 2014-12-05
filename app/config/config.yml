@@ -52,6 +52,14 @@ assetic:
         #yui_css:
         #    jar: "%kernel.root_dir%/Resources/java/yuicompressor-2.4.7.jar"
 
+               # - '%kernel.root_dir%/../vendor/twitter/bootstrap/dist/css/bootstrap-theme.css.map'
+        #bootstrap_fonts:
+         #   inputs:
+          #      - '%kernel.root_dir%/../vendor/twitter/bootstrap/dist/fonts/glyphicons-halflings-regular.eot'
+           #     - '%kernel.root_dir%/../vendor/twitter/bootstrap/dist/fonts/glyphicons-halflings-regular.svg'
+            #    - '%kernel.root_dir%/../vendor/twitter/bootstrap/dist/fonts/glyphicons-halflings-regular.ttf'
+             #   - '%kernel.root_dir%/../vendor/twitter/bootstrap/dist/fonts/glyphicons-halflings-regular.woff'
+
 # Doctrine Configuration
 doctrine_mongodb:
     connections:

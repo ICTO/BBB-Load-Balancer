@@ -1,4 +1,4 @@
-Admin.IndexServerController = Ember.ObjectController.extend({
+Admin.ServerController = Ember.ObjectController.extend({
   isEditing: false,
   actions: {
     toggleEditServer: function() {

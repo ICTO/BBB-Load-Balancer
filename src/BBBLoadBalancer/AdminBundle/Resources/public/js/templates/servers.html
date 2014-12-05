@@ -1,4 +1,4 @@
-<script type="text/x-handlebars" data-template-name="index/servers">
+<script type="text/x-handlebars" data-template-name="servers">
 	<div class="table-responsive">
 	  <table class="table table-hover table-striped">
 	  	<tr>
@@ -8,7 +8,7 @@
 		  	<th>Enabled</th>
 		  	<th>Actions</th>
 	  	</tr>
-	    {{#each server in model itemController="indexServer"}}
+	    {{#each server in model itemController="Server"}}
 	  	<tr>
 		  	<td>
 		  		{{#if server.isEditing }}

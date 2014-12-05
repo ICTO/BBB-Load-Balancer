@@ -1,4 +1,4 @@
-<script type="text/x-handlebars" data-template-name="index/users">
+<script type="text/x-handlebars" data-template-name="users">
 	<div class="table-responsive">
 	  <table class="table table-hover table-striped">
 	  	<tr>
@@ -8,7 +8,7 @@
 		  	<th>Password</th>
 		  	<th>Actions</th>
 	  	</tr>
-	    {{#each user in model itemController="indexUser"}}
+	    {{#each user in model itemController="user"}}
 	  	<tr>
 		  	<td>
 		  		{{#if user.isEditing }}

@@ -5,3 +5,6 @@ services:
     meeting:
         class: BBBLoadBalancer\AdminBundle\Service\MeetingService
         arguments: [ @doctrine_mongodb ]
+    bbb:
+        class: BBBLoadBalancer\AdminBundle\Service\BBBService
+        arguments: []

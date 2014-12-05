@@ -1,4 +1,4 @@
-Admin.IndexUsersController = Ember.ObjectController.extend({
+Admin.UsersController = Ember.ObjectController.extend({
   newFirstName: '',
   newLastName: '',
   newEmail: '',
