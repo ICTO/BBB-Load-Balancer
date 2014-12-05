@@ -18,6 +18,8 @@ class BBBAPIController extends Controller
      */
     public function createAction(Request $request)
     {
+        $salt = $this->container->getParameter('bbb.salt');
+        $bbb = new \BigBlueButton("test", "baseurl");
         // @TODO : not yet supported
     }
 

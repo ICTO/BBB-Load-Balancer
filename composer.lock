@@ -4,20 +4,39 @@
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "1c0b5766e1a8bcbe7fc6163d5a62e30f",
+    "hash": "a2041e789ded5be2c9adda743de2703b",
     "packages": [
         {
-            "name": "brunogoossens/ember",
-            "version": "1.9.0-beta.4",
+            "name": "brunogoossens/bbbapiphp",
+            "version": "dev-master",
             "source": {
                 "type": "git",
-                "url": "https://github.com/brunogoossens/ember.git",
-                "reference": "ccfa3efab34090ffd0e1f497d10c27e21befeeeb"
+                "url": "https://github.com/brunogoossens/BBBApiPHP.git",
+                "reference": "8b86ff0ae53c631c604ba90bcd6e47e631620bad"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/brunogoossens/ember/zipball/ccfa3efab34090ffd0e1f497d10c27e21befeeeb",
-                "reference": "ccfa3efab34090ffd0e1f497d10c27e21befeeeb",
+                "url": "https://api.github.com/repos/brunogoossens/BBBApiPHP/zipball/8b86ff0ae53c631c604ba90bcd6e47e631620bad",
+                "reference": "8b86ff0ae53c631c604ba90bcd6e47e631620bad",
+                "shasum": ""
+            },
+            "type": "library",
+            "notification-url": "https://packagist.org/downloads/",
+            "description": "Library to integrate php web applications with BigBlueButton 0.8",
+            "time": "2014-12-05 10:07:31"
+        },
+        {
+            "name": "components/ember",
+            "version": "1.9.0-beta.4",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/components/ember.git",
+                "reference": "33e23ad7f0430d8d74fcb07c99618414d9bb834b"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/components/ember/zipball/33e23ad7f0430d8d74fcb07c99618414d9bb834b",
+                "reference": "33e23ad7f0430d8d74fcb07c99618414d9bb834b",
                 "shasum": ""
             },
             "require": {
@@ -47,24 +66,24 @@
                 "MIT"
             ],
             "description": "A framework for creating ambitious web applications.",
-            "time": "2014-12-05 09:14:10"
+            "time": "2014-11-30 14:43:55"
         },
         {
-            "name": "brunogoossens/ember-data",
-            "version": "1.0.0-beta.12",
+            "name": "components/ember-data",
+            "version": "v1.0.0-beta.12",
             "source": {
                 "type": "git",
-                "url": "https://github.com/brunogoossens/ember-data.git",
-                "reference": "17a6ba784c3f2d9c730aaa0d4e451e3cbd99d831"
+                "url": "https://github.com/components/ember-data.git",
+                "reference": "2867cc95ab1b52de84783bb982ea326fbedf1e9c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/brunogoossens/ember-data/zipball/17a6ba784c3f2d9c730aaa0d4e451e3cbd99d831",
-                "reference": "17a6ba784c3f2d9c730aaa0d4e451e3cbd99d831",
+                "url": "https://api.github.com/repos/components/ember-data/zipball/2867cc95ab1b52de84783bb982ea326fbedf1e9c",
+                "reference": "2867cc95ab1b52de84783bb982ea326fbedf1e9c",
                 "shasum": ""
             },
             "require": {
-                "brunogoossens/ember": "1.*"
+                "components/ember": "1.*"
             },
             "type": "component",
             "extra": {
@@ -89,7 +108,7 @@
                 "MIT"
             ],
             "description": "A data persistence library for Ember.js.",
-            "time": "2014-12-05 09:39:49"
+            "time": "2014-11-27 02:44:21"
         },
         {
             "name": "components/handlebars.js",
@@ -1377,16 +1396,16 @@
         },
         {
             "name": "swiftmailer/swiftmailer",
-            "version": "v5.3.0",
+            "version": "v5.3.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/swiftmailer/swiftmailer.git",
-                "reference": "b86b927dfefdb56ab0b22d1350033d9a38e9f205"
+                "reference": "c5f963e7f9d6f6438fda4f22d5cc2db296ec621a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/swiftmailer/swiftmailer/zipball/b86b927dfefdb56ab0b22d1350033d9a38e9f205",
-                "reference": "b86b927dfefdb56ab0b22d1350033d9a38e9f205",
+                "url": "https://api.github.com/repos/swiftmailer/swiftmailer/zipball/c5f963e7f9d6f6438fda4f22d5cc2db296ec621a",
+                "reference": "c5f963e7f9d6f6438fda4f22d5cc2db296ec621a",
                 "shasum": ""
             },
             "require": {
@@ -1425,7 +1444,7 @@
                 "mail",
                 "mailer"
             ],
-            "time": "2014-10-04 05:53:18"
+            "time": "2014-12-05 14:17:14"
         },
         {
             "name": "symfony/assetic-bundle",
@@ -1936,9 +1955,10 @@
     "stability-flags": {
         "doctrine/mongodb-odm": 20,
         "doctrine/mongodb-odm-bundle": 20,
-        "brunogoossens/ember": 10,
-        "brunogoossens/ember-data": 10,
-        "eleiva/yii2-noty": 20
+        "components/ember": 10,
+        "components/ember-data": 10,
+        "eleiva/yii2-noty": 20,
+        "brunogoossens/bbbapiphp": 20
     },
     "prefer-stable": false,
     "platform": {

@@ -4,12 +4,8 @@
     "type": "project",
     "description": "The \"Symfony Standard Edition\" distribution",
     "autoload": {
-        "psr-0": { "": "src/", "SymfonyStandard": "app/" }
-    },
-    "dist":
-    {
-        "url": "https://github.com/bigbluebutton/bigbluebutton/archive/master.zip",
-        "type": "zip"
+        "psr-0": { "": "src/", "SymfonyStandard": "app/" },
+        "files": ["vendor/brunogoossens/bbbapiphp/includes/bbb-api.php"]
     },
     "require": {
         "php": ">=5.3.3",
@@ -26,10 +22,11 @@
         "twitter/bootstrap": "3.3.*",
         "components/jquery": "1.10",
         "components/handlebars.js": "v2.0.0",
-        "brunogoossens/ember": "1.9.0-beta.4",
-        "brunogoossens/ember-data": "1.0.0-beta.12",
+        "components/ember": "1.9.0-beta.4",
+        "components/ember-data": "1.0.0-beta.12",
         "eleiva/yii2-noty": "dev-master",
-        "moment/moment": "2.8.*"
+        "moment/moment": "2.8.*",
+        "brunogoossens/bbbapiphp": "dev-master"
     },
     "require-dev": {
         "sensio/generator-bundle": "~2.3"

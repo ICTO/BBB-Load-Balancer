@@ -19,3 +19,5 @@ parameters:
     app.email_name: BBB Load Balancer
     app.email: test@example.com
     app.email_noreply: no-reply@example.com
+
+    bbb.salt: thesaltonthebbbservers
