@@ -5,7 +5,7 @@
     "description": "The \"Symfony Standard Edition\" distribution",
     "autoload": {
         "psr-0": { "": "src/", "SymfonyStandard": "app/" },
-        "files": ["vendor/brunogoossens/bbbapiphp/includes/bbb-api.php"]
+        "files": ["vendor/brunogoossens/bbb-api-php/includes/bbb-api.php"]
     },
     "require": {
         "php": ">=5.3.3",
@@ -26,7 +26,7 @@
         "components/ember-data": "1.0.0-beta.12",
         "eleiva/yii2-noty": "dev-master",
         "moment/moment": "2.8.*",
-        "brunogoossens/bbbapiphp": "dev-master"
+        "brunogoossens/bbb-api-php": "dev-master"
     },
     "require-dev": {
         "sensio/generator-bundle": "~2.3"
