@@ -8,13 +8,15 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 class ServerService
 {
     protected $dm;
+    protected $bbb;
 
     /**
      * Constructor.
      */
-    public function __construct($dm)
+    public function __construct($dm, $bbb)
     {
         $this->dm = $dm->getManager();
+        $this->bbb = $bbb;
     }
 
     /**
@@ -64,5 +66,35 @@ class ServerService
     public function newServer(){
         $server = new Server();
         return $server;
+    }
+
+    /**
+     * Get server most idle
+     */
+    public function getServerMostIdle(){
+        $servers = $this->getServersBy(array('enabled' => true));
+        $best_server = array(
+            'server' => false,
+            'count_meetings' => false,
+        );
+        foreach($servers as $server) {
+            $meetings = $this->bbb->getMeetings($server);
+            $count = 0;
+            if(is_array($meetings)){
+                foreach($meetings as $meeting){
+                    if($meeting['running']){
+                        $count + 1;
+                    }
+                }
+                if($best_server['count_meetings'] === false || $best_server['count_meetings'] > $count){
+                    $best_server = array(
+                        'server' => $server,
+                        'count_meetings' => $count,
+                    );
+                }
+            }
+        }
+
+        return $best_server['server'];
     }
 }

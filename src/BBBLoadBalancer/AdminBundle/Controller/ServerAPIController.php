@@ -14,7 +14,7 @@ use Symfony\Component\Validator\Exception\ValidatorException;
 class ServerAPIController extends Controller
 {
     /**
-     * @Route("api/servers", name="servers", defaults={"_format": "json"})
+     * @Route("/api/servers", name="servers", defaults={"_format": "json"})
      * @Method({"GET"})
      */
     public function serversAction(Request $request)
@@ -26,11 +26,21 @@ class ServerAPIController extends Controller
         // return all users
         $servers = $this->get('server')->getServersBy(array());
         foreach($servers as $server){
+            // try to connect to server
+            $up = false;
+            try {
+                $result = $this->get('bbb')->doRequest($server->getUrl()."/bigbluebutton/api", 1); // low timeout for faster pages when server is down
+                $xml = new \SimpleXMLElement($result);
+                if($xml->returncode == "SUCCESS"){
+                    $up = true;
+                }
+            } catch (\Exception $e) {}
+
             $return['servers'][] = array(
                 'id' => $server->getId(),
                 'name' => $server->getName(),
                 'url' => $server->getURL(),
-                'up' => false,
+                'up' => $up,
                 'enabled' => $server->getEnabled()
             );
         }
@@ -39,7 +49,7 @@ class ServerAPIController extends Controller
     }
 
     /**
-     * @Route("api/servers", name="add_server", defaults={"_format": "json"})
+     * @Route("/api/servers", name="add_server", defaults={"_format": "json"})
      * @Method({"POST"})
      */
     public function addServerAction(Request $request)
@@ -62,6 +72,16 @@ class ServerAPIController extends Controller
 
         $this->get('server')->saveServer($server);
 
+        // try to connect to server
+        $up = false;
+        try {
+            $result = $this->get('bbb')->doRequest($server->getUrl()."bigbluebutton/api", 1);
+            $xml = new \SimpleXMLElement($result);
+            if($xml->returncode == "SUCCESS"){
+                $up = true;
+            }
+        } catch (\Exception $e) {}
+
         $return['user'] = array(
             'id' => $server->getId(),
             'name' => $server->getName(),
@@ -74,7 +94,7 @@ class ServerAPIController extends Controller
     }
 
     /**
-     * @Route("api/servers/{id}", name="edit_server", defaults={"_format": "json"})
+     * @Route("/api/servers/{id}", name="edit_server", defaults={"_format": "json"})
      * @Method({"PUT"})
      */
     public function editServerAction(Request $request, $id)
@@ -101,19 +121,29 @@ class ServerAPIController extends Controller
 
         $this->get('server')->saveServer($server);
 
+        // try to connect to server
+        $up = false;
+        try {
+            $result = $this->get('bbb')->doRequest($server->getUrl()."bigbluebutton/api", 1);
+            $xml = new \SimpleXMLElement($result);
+            if($xml->returncode == "SUCCESS"){
+                $up = true;
+            }
+        } catch (\Exception $e) {}
+
         $return['server'] = array(
             'id' => $server->getId(),
             'name' => $server->getName(),
             'url' => $server->getURL(),
             'enabled' => $server->getEnabled(),
-            'up' => true,
+            'up' => $up,
         );
 
         return new JsonResponse($return);
     }
 
     /**
-     * @Route("api/servers/{id}", name="remove_server", defaults={"_format": "json"})
+     * @Route("/api/servers/{id}", name="remove_server", defaults={"_format": "json"})
      * @Method({"DELETE"})
      */
     public function removeServerAction(Request $request, $id)
@@ -132,35 +162,27 @@ class ServerAPIController extends Controller
     }
 
     /**
-     * @Route("api/meetings", name="meetings", defaults={"_format": "json"})
+     * @Route("/api/meetings", name="meetings", defaults={"_format": "json"})
      * @Method({"GET"})
      */
     public function meetingsAction(Request $request)
     {
+        $server = $this->get('server')->getServerById($request->get('server_id'));
+
         $return = array(
             'meetings' => array()
         );
 
-        $now = new \DateTime('now', new \DateTimeZone('UTC'));
+        $meetings = $this->get('bbb')->getMeetings($server);
 
-        // debug return
-        return new JsonResponse( array(
-            'meetings' => array(array(
-                'id' => 1,
-                'name' => 'test',
-                'created' => $now->format('c'),
-                'running' => false
-            )
-        )));
-
-        // return all users
-        $meetings = $this->get('meeting')->getMeetingsBy(array('id' => $request->get('server_id')));
+        // return all meetings with info
         foreach($meetings as $meeting){
+            $dt = new \DateTime('@' . round($meeting['createTime']->__toString()/1000));
             $return['meetings'][] = array(
-                'id' => $meeting->getId(),
-                'name' => $meeting->getName(),
-                'created' => '',
-                'running' => false
+                'id' => $meeting['meetingId']->__toString(),
+                'name' => $meeting['meetingName']->__toString(),
+                'created' => $dt->format('c'),
+                'running' => $meeting['running']->__toString()
             );
         }
 

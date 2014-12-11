@@ -1,10 +1,10 @@
 services:
-    server:
-        class: BBBLoadBalancer\AdminBundle\Service\ServerService
-        arguments: [ @doctrine_mongodb ]
     meeting:
         class: BBBLoadBalancer\AdminBundle\Service\MeetingService
         arguments: [ @doctrine_mongodb ]
     bbb:
         class: BBBLoadBalancer\AdminBundle\Service\BBBService
-        arguments: []
+        arguments: [ %bbb.salt% ]
+    server:
+        class: BBBLoadBalancer\AdminBundle\Service\ServerService
+        arguments: [ @doctrine_mongodb, @bbb ]

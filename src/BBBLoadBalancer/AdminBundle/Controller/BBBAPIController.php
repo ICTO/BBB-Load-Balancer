@@ -6,10 +6,12 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 
 class BBBAPIController extends Controller
 {
     public function __construct(){
+        // Setting for BBB api lib
         ini_set("allow_url_fopen", "On");
     }
     /**
@@ -19,8 +21,19 @@ class BBBAPIController extends Controller
     public function createAction(Request $request)
     {
         $salt = $this->container->getParameter('bbb.salt');
-        $bbb = new \BigBlueButton("test", "baseurl");
-        // @TODO : not yet supported
+        $server = $this->get('server')->getServerMostIdle();
+        $return = $this->get('bbb')->doRequest($server->getUrl() . $this->get('bbb')->cleanUri($request->getRequestUri()));
+
+        $xml = new \SimpleXMLElement($return);
+        $meeting = $this->get('meeting')->newMeeting();
+        $meeting->setMeetingId($xml->meetingID);
+        $meeting->setServer($server);
+        $this->get('meeting')->saveMeeting($meeting);
+
+        $response = new Response($return);
+        $response->headers->set('Content-Type', 'text/xml');
+
+        return $response;
     }
 
     /**
@@ -29,7 +42,24 @@ class BBBAPIController extends Controller
      */
     public function joinAction(Request $request)
     {
-        // @TODO : not yet supported
+        $meetingID = $request->get('meetingID');
+        $meeting = $this->get('meeting')->getMeetingBy(array('meetingId' => $meetingID));
+
+        $server = $meeting->getServer();
+
+        $join_url = $server->getUrl() . $this->get('bbb')->cleanUri($request->getRequestUri());
+        $return = $this->get('bbb')->doRequest($join_url);
+
+        // if the return has an error message
+        if(!empty($return)){
+            $response = new Response($return);
+            $response->headers->set('Content-Type', 'text/xml');
+
+            return $response;
+        }
+
+        // redirect to the join url
+        return $this->redirect($join_url);
     }
 
     /**
@@ -38,7 +68,23 @@ class BBBAPIController extends Controller
      */
     public function isMeetingRunningAction(Request $request)
     {
-        // @TODO : not yet supported
+        $meetingID = $request->get('meetingID');
+        $meeting = $this->get('meeting')->getMeetingBy(array('meetingId' => $meetingID));
+        if(!$meeting){
+            return new Response("<response>
+                                   <returncode>SUCCESS</returncode>
+                                   <running>false</running>
+                                </response>");
+        }
+
+        $server = $meeting->getServer();
+
+        $return = $this->get('bbb')->doRequest($server->getUrl() . $this->get('bbb')->cleanUri($request->getRequestUri()));
+
+        $response = new Response($return);
+        $response->headers->set('Content-Type', 'text/xml');
+
+        return $response;
     }
 
     /**
@@ -47,7 +93,18 @@ class BBBAPIController extends Controller
      */
     public function endAction(Request $request)
     {
-        // @TODO : not yet supported
+        $meetingID = $request->get('meetingID');
+        $meeting = $this->get('meeting')->getMeetingBy(array('meetingId' => $meetingID));
+
+        $server = $meeting->getServer();
+
+        $end_url = $server->getUrl() . $this->get('bbb')->cleanUri($request->getRequestUri());
+        $return = $this->get('bbb')->doRequest($end_url);
+
+        $response = new Response($return);
+        $response->headers->set('Content-Type', 'text/xml');
+
+        return $response;
     }
 
     /**
@@ -56,7 +113,18 @@ class BBBAPIController extends Controller
      */
     public function getMeetingInfoAction(Request $request)
     {
-        // @TODO : not yet supported
+        $meetingID = $request->get('meetingID');
+        $meeting = $this->get('meeting')->getMeetingBy(array('meetingId' => $meetingID));
+
+        $server = $meeting->getServer();
+
+        $info_url = $server->getUrl() . $this->get('bbb')->cleanUri($request->getRequestUri());
+        $return = $this->get('bbb')->doRequest($info_url);
+
+        $response = new Response($return);
+        $response->headers->set('Content-Type', 'text/xml');
+
+        return $response;
     }
 
     /**
