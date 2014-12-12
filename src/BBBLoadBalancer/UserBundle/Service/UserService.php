@@ -5,6 +5,7 @@ namespace BBBLoadBalancer\UserBundle\Service;
 use BBBLoadBalancer\UserBundle\Document\User;
 use Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use Symfony\Component\Validator\Exception\ValidatorException;
 use \DateTime;
 use \DateTimeZone;
 
@@ -17,11 +18,12 @@ class UserService
     protected $site_name;
     protected $mailer;
     protected $templating;
+    protected $validator;
 
     /**
      * Constructor.
      */
-    public function __construct($dm, $security_context, $mailer, $email_noreply, $email_name, $site_name, $templating)
+    public function __construct($dm, $security_context, $mailer, $email_noreply, $email_name, $site_name, $templating, $validator)
     {
         $this->dm = $dm->getManager();
         $this->sc = $security_context;
@@ -30,6 +32,7 @@ class UserService
         $this->email_name = $email_name;
         $this->site_name = $site_name;
         $this->templating = $templating;
+        $this->validator = $validator;
     }
 
     /**
@@ -64,6 +67,14 @@ class UserService
      * Save the user
      */
     public function saveUser($user){
+        // validate user
+        $errors = $this->validator->validate($user);
+        if($errors->count()){
+            foreach($errors as $error){
+                throw new ValidatorException($error->getMessage());
+            }
+        }
+
         $this->dm->persist($user);
         $this->dm->flush();
     }

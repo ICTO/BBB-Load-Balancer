@@ -4,19 +4,22 @@ namespace BBBLoadBalancer\AdminBundle\Service;
 
 use BBBLoadBalancer\AdminBundle\Document\Server;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use Symfony\Component\Validator\Exception\ValidatorException;
 
 class ServerService
 {
     protected $dm;
     protected $bbb;
+    protected $validator;
 
     /**
      * Constructor.
      */
-    public function __construct($dm, $bbb)
+    public function __construct($dm, $bbb, $validator)
     {
         $this->dm = $dm->getManager();
         $this->bbb = $bbb;
+        $this->validator = $validator;
     }
 
     /**
@@ -44,6 +47,13 @@ class ServerService
      * Save the server
      */
     public function saveServer($server){
+        // validate server
+        $errors = $this->validator->validate($server);
+        if($errors->count()){
+            foreach($errors as $error){
+                throw new ValidatorException($error->getMessage());
+            }
+        }
         $this->dm->persist($server);
         $this->dm->flush();
     }
@@ -82,9 +92,9 @@ class ServerService
             $count = 0;
             if(is_array($meetings)){
                 foreach($meetings as $meeting){
-                    if($meeting['running']){
-                        $count + 1;
-                    }
+                    //if($meeting['running']->__toString() == "true"){
+                        $count++;
+                    //}
                 }
                 if($best_server['count_meetings'] === false || $best_server['count_meetings'] > $count){
                     $best_server = array(

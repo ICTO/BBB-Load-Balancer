@@ -7,6 +7,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Validator\Exception\ValidatorException;
 
 class BBBAPIController extends Controller
 {
@@ -21,14 +22,26 @@ class BBBAPIController extends Controller
     public function createAction(Request $request)
     {
         $salt = $this->container->getParameter('bbb.salt');
-        $server = $this->get('server')->getServerMostIdle();
+
+        $meetingID = $request->get('meetingID');
+        $meeting = $this->get('meeting')->getMeetingBy(array('meetingId' => $meetingID));
+
+        if($meeting){
+            $server = $meeting->getServer();
+        } else {
+            $meeting = $this->get('meeting')->newMeeting();
+            $server = $this->get('server')->getServerMostIdle();
+        }
+
         $return = $this->get('bbb')->doRequest($server->getUrl() . $this->get('bbb')->cleanUri($request->getRequestUri()));
 
         $xml = new \SimpleXMLElement($return);
-        $meeting = $this->get('meeting')->newMeeting();
-        $meeting->setMeetingId($xml->meetingID);
-        $meeting->setServer($server);
-        $this->get('meeting')->saveMeeting($meeting);
+
+        if($xml->messageKey->__toString() != "duplicateWarning"){
+            $meeting->setMeetingId($xml->meetingID->__toString());
+            $meeting->setServer($server);
+            $this->get('meeting')->saveMeeting($meeting);
+        }
 
         $response = new Response($return);
         $response->headers->set('Content-Type', 'text/xml');
@@ -71,10 +84,7 @@ class BBBAPIController extends Controller
         $meetingID = $request->get('meetingID');
         $meeting = $this->get('meeting')->getMeetingBy(array('meetingId' => $meetingID));
         if(!$meeting){
-            return new Response("<response>
-                                   <returncode>SUCCESS</returncode>
-                                   <running>false</running>
-                                </response>");
+            return new Response("<response><returncode>SUCCESS</returncode><running>false</running></response>");
         }
 
         $server = $meeting->getServer();

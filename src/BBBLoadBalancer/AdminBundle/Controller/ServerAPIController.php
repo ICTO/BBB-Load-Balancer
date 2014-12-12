@@ -62,14 +62,6 @@ class ServerAPIController extends Controller
         $server->setURL($data['server']['url']);
         $server->setEnabled($data['server']['enabled']);
 
-        // validate server
-        $errors = $this->get('validator')->validate($server);
-        if($errors->count()){
-            foreach($errors as $error){
-                throw new ValidatorException($error->getMessage());
-            }
-        }
-
         $this->get('server')->saveServer($server);
 
         // try to connect to server
@@ -110,14 +102,6 @@ class ServerAPIController extends Controller
         $server->setName($data['server']['name']);
         $server->setURL($data['server']['url']);
         $server->setEnabled($data['server']['enabled']);
-
-        // validate server
-        $errors = $this->get('validator')->validate($server);
-        if($errors->count()){
-            foreach($errors as $error){
-                throw new ValidatorException($error->getMessage());
-            }
-        }
 
         $this->get('server')->saveServer($server);
 

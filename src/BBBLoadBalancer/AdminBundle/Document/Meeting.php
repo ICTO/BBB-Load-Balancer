@@ -10,6 +10,7 @@ use Doctrine\Bundle\MongoDBBundle\Validator\Constraints\Unique as MongoDBUnique;
 
 /**
  * @MongoDB\Document(collection="Meeting")
+ * @MongoDBUnique(fields="meetingId", message = "This meetingId is already in use")
  */
 class Meeting
 {

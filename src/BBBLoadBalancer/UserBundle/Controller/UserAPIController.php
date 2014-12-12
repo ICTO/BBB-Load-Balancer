@@ -9,7 +9,6 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
-use Symfony\Component\Validator\Exception\ValidatorException;
 
 class UserAPIController extends Controller
 {
@@ -79,14 +78,6 @@ class UserAPIController extends Controller
          // must be set for validation
         $user->setPassword($password);
 
-        // validate user
-        $errors = $this->get('validator')->validate($user);
-        if($errors->count()){
-            foreach($errors as $error){
-                throw new ValidatorException($error->getMessage());
-            }
-        }
-
         $this->get('user')->saveUser($user);
 
         $return['user'] = array(
@@ -127,17 +118,6 @@ class UserAPIController extends Controller
                 $user->setPassword($password);
             } else {
                 throw new ValidatorException("Passwords don't match");
-            }
-        }
-
-        // if password is set and matches repeat password
-
-
-        // validate user
-        $errors = $this->get('validator')->validate($user);
-        if($errors->count()){
-            foreach($errors as $error){
-                throw new ValidatorException($error->getMessage());
             }
         }
 

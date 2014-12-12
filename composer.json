@@ -22,7 +22,7 @@
         "twitter/bootstrap": "3.3.*",
         "components/jquery": "1.10",
         "components/handlebars.js": "v2.0.0",
-        "components/ember": "1.9.0-beta.4",
+        "components/ember": "1.9.0",
         "components/ember-data": "1.0.0-beta.12",
         "eleiva/yii2-noty": "dev-master",
         "moment/moment": "2.8.*",
