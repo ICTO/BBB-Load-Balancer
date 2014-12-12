@@ -26,18 +26,20 @@ class BBBAPIController extends Controller
         $meetingID = $request->get('meetingID');
         $meeting = $this->get('meeting')->getMeetingBy(array('meetingId' => $meetingID));
 
+        $save = false;
+
         if($meeting){
             $server = $meeting->getServer();
         } else {
             $meeting = $this->get('meeting')->newMeeting();
             $server = $this->get('server')->getServerMostIdle();
+            $save = true;
         }
 
         $return = $this->get('bbb')->doRequest($server->getUrl() . $this->get('bbb')->cleanUri($request->getRequestUri()));
-
         $xml = new \SimpleXMLElement($return);
 
-        if($xml->messageKey->__toString() != "duplicateWarning"){
+        if($save){
             $meeting->setMeetingId($xml->meetingID->__toString());
             $meeting->setServer($server);
             $this->get('meeting')->saveMeeting($meeting);

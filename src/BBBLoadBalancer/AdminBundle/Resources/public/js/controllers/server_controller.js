@@ -9,6 +9,12 @@ Admin.ServerController = Ember.ObjectController.extend({
 			this.set('isEditing', true);
 		}
     },
+    reloadMeetings: function() {
+    	serverModel = this.get('model');
+    	this.propertyWillChange('model');
+        this.set('meeting', this.store.find('meeting',{ server_id: serverModel.get('id') }));
+        this.propertyDidChange('model');
+    },
     saveServer: function() {
     	var controller = this;
     	var onSuccess = function(server) {
