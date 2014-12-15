@@ -25,9 +25,9 @@ class LoginPagesController extends Controller
         $session = $request->getSession();
 
         // if authenticated, Go to the wall page, this redirect almost never heppens because frontpage redirects.
-        if( $this->get('security.context')->isGranted('IS_AUTHENTICATED_REMEMBERED') ) {
-            return new RedirectResponse($this->get('router')->generate('admin'));
-        }
+        //if( $this->get('security.context')->isGranted('IS_AUTHENTICATED_REMEMBERED') ) {
+        //    return new RedirectResponse($this->get('router')->generate('admin'));
+        //}
 
         // get the login error if there is one
         if ($request->attributes->has(SecurityContext::AUTHENTICATION_ERROR)) {
@@ -55,7 +55,7 @@ class LoginPagesController extends Controller
     }
     /**
      * Throw error if logout path is not behind the firewall.
-     * @Route("/logout/{group_machine_name}", name="logout", defaults={"group_machine_name":false})
+     * @Route("/logout", name="logout")
      * @throws \RuntimeException
      */
     public function logoutAction()

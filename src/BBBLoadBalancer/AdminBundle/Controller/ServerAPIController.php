@@ -10,12 +10,14 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Validator\Exception\ValidatorException;
+use BBBLoadBalancer\UserBundle\Annotations\ValidAPIKey;
 
 class ServerAPIController extends Controller
 {
     /**
      * @Route("/api/servers", name="servers", defaults={"_format": "json"})
      * @Method({"GET"})
+     * @ValidAPIKey
      */
     public function serversAction(Request $request)
     {
@@ -51,6 +53,7 @@ class ServerAPIController extends Controller
     /**
      * @Route("/api/servers", name="add_server", defaults={"_format": "json"})
      * @Method({"POST"})
+     * @ValidAPIKey
      */
     public function addServerAction(Request $request)
     {
@@ -67,19 +70,19 @@ class ServerAPIController extends Controller
         // try to connect to server
         $up = false;
         try {
-            $result = $this->get('bbb')->doRequest($server->getUrl()."bigbluebutton/api", 1);
+            $result = $this->get('bbb')->doRequest($server->getUrl()."/bigbluebutton/api", 1); // low timeout for faster pages when server is down
             $xml = new \SimpleXMLElement($result);
             if($xml->returncode == "SUCCESS"){
                 $up = true;
             }
         } catch (\Exception $e) {}
 
-        $return['user'] = array(
+        $return['server'] = array(
             'id' => $server->getId(),
             'name' => $server->getName(),
             'url' => $server->getURL(),
             'enabled' => $server->getEnabled(),
-            'up' => true,
+            'up' => $up,
         );
 
         return new JsonResponse($return);
@@ -88,6 +91,7 @@ class ServerAPIController extends Controller
     /**
      * @Route("/api/servers/{id}", name="edit_server", defaults={"_format": "json"})
      * @Method({"PUT"})
+     * @ValidAPIKey
      */
     public function editServerAction(Request $request, $id)
     {
@@ -108,7 +112,7 @@ class ServerAPIController extends Controller
         // try to connect to server
         $up = false;
         try {
-            $result = $this->get('bbb')->doRequest($server->getUrl()."bigbluebutton/api", 1);
+            $result = $this->get('bbb')->doRequest($server->getUrl()."/bigbluebutton/api", 1);
             $xml = new \SimpleXMLElement($result);
             if($xml->returncode == "SUCCESS"){
                 $up = true;
@@ -129,6 +133,7 @@ class ServerAPIController extends Controller
     /**
      * @Route("/api/servers/{id}", name="remove_server", defaults={"_format": "json"})
      * @Method({"DELETE"})
+     * @ValidAPIKey
      */
     public function removeServerAction(Request $request, $id)
     {
@@ -148,6 +153,7 @@ class ServerAPIController extends Controller
     /**
      * @Route("/api/meetings", name="meetings", defaults={"_format": "json"})
      * @Method({"GET"})
+     * @ValidAPIKey
      */
     public function meetingsAction(Request $request)
     {

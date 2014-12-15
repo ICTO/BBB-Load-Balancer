@@ -9,12 +9,16 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use Symfony\Component\Security\Core\User\UserInterface;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
+use BBBLoadBalancer\UserBundle\Annotations\ValidAPIKey;
 
 class UserAPIController extends Controller
 {
     /**
-     * @Route("api/users", name="users", defaults={"_format": "json"})
+     * @Route("/api/users", name="users", defaults={"_format": "json"})
      * @Method({"GET"})
+     * @ValidAPIKey
      */
     public function usersAction(Request $request)
     {
@@ -31,6 +35,7 @@ class UserAPIController extends Controller
                 'lastName' => $active_user->getLastName(),
                 'email' => $active_user->getEmail(),
                 'timezone' => $active_user->getTimezone(),
+                'apiKey' => $active_user->getApiKey(),
             );
             return new JsonResponse($return);
         }
@@ -44,6 +49,7 @@ class UserAPIController extends Controller
                 'lastName' => $user->getLastName(),
                 'email' => $user->getEmail(),
                 'timezone' => $user->getTimezone(),
+                'apiKey' => $user->getApiKey(),
             );
         }
 
@@ -51,8 +57,9 @@ class UserAPIController extends Controller
     }
 
     /**
-     * @Route("api/users", name="add_user", defaults={"_format": "json"})
+     * @Route("/api/users", name="add_user", defaults={"_format": "json"})
      * @Method({"POST"})
+     * @ValidAPIKey
      */
     public function addUserAction(Request $request)
     {
@@ -86,14 +93,16 @@ class UserAPIController extends Controller
             'lastName' => $user->getLastName(),
             'email' => $user->getEmail(),
             'timezone' => $user->getTimezone(),
+            'apiKey' => $user->getApiKey(),
         );
 
         return new JsonResponse($return);
     }
 
     /**
-     * @Route("api/users/{id}", name="edit_user", defaults={"_format": "json"})
+     * @Route("/api/users/{id}", name="edit_user", defaults={"_format": "json"})
      * @Method({"PUT"})
+     * @ValidAPIKey
      */
     public function editUserAction(Request $request, $id)
     {
@@ -107,6 +116,8 @@ class UserAPIController extends Controller
 
         $user->setFirstName($data['user']['firstName']);
         $user->setLastName($data['user']['lastName']);
+        $user->setEmail($data['user']['email']);
+        $user->setTimezone($data['user']['timezone']);
 
         // password is set but does not match the repeat password
         if(!empty($data['user']['password1']) || !empty($data['user']['password2'])){
@@ -129,14 +140,16 @@ class UserAPIController extends Controller
             'lastName' => $user->getLastName(),
             'email' => $user->getEmail(),
             'timezone' => $user->getTimezone(),
+            'apiKey' => $user->getApiKey(),
         );
 
         return new JsonResponse($return);
     }
 
     /**
-     * @Route("api/users/{id}", name="remove_user", defaults={"_format": "json"})
+     * @Route("/api/users/{id}", name="remove_user", defaults={"_format": "json"})
      * @Method({"DELETE"})
+     * @ValidAPIKey
      */
     public function removeUserAction(Request $request, $id)
     {

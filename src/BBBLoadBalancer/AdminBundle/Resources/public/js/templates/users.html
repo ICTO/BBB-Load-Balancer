@@ -4,6 +4,7 @@
 	  	<tr>
 		  	<th>Name</th>
 		  	<th>Email</th>
+		  	<th>API Key</th>
 		  	<th>Timezone</th>
 		  	<th>Password</th>
 		  	<th>Actions</th>
@@ -24,6 +25,14 @@
   			    {{else}}
   			    	<div>{{user.email}}</div>
 		  		{{/if }}
+	  		</td>
+	  		<td>
+  			    {{#if user.isEditing }}
+			  		<div>-</div>
+  			    {{else}}
+  			    	<div>{{user.apiKey}}</div>
+		  		{{/if }}
+	  		</td>
 		  	<td>
 				{{#if user.isEditing }}
 		  			{{input type="text" class="form-control" placeholder="Timezone" value=user.timezone }}
@@ -51,9 +60,12 @@
 	  			{{input type="text" class="form-control" placeholder="Last name" value=newLastName }}
 		  	</td>
 		  	<td>
-		  	  {{input type="email" class="form-control" placeholder="Email" value=newEmail }}</td>
+		  	  {{input type="email" class="form-control" placeholder="Email" value=newEmail }}
+		  	</td>
+		  	<td></td>
 		  	<td>
-		  	  {{input type="text" class="form-control" placeholder="Timezone" value=newTimezone }}</td>
+		  	  {{input type="text" class="form-control" placeholder="Timezone" value=newTimezone }}
+		  	</td>
 		  	<td>
 		  	  {{input type="password" class="form-control" value=newPlainPassword1 placeholder="New password" }}
   			  {{input type="password" class="form-control" value=newPlainPassword2 placeholder="Repeat password" }}

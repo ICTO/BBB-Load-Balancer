@@ -73,6 +73,12 @@ class User implements AdvancedUserInterface
     protected $secretKey;
 
     /**
+     * @MongoDB\String
+     * @Assert\NotBlank(message = "No API key given")
+     */
+    protected $apiKey;
+
+    /**
      * @MongoDB\Hash
      * @Assert\NotBlank(message = "You need to enter at least one role")
      */
@@ -278,6 +284,29 @@ class User implements AdvancedUserInterface
     public function getSecretKey()
     {
         return $this->secretKey;
+    }
+
+    /**
+     * Set API Key
+     *
+     * @param string $apiKey
+     * @return string
+     */
+    public function setApiKey($apiKey)
+    {
+        $this->apiKey = $apiKey;
+
+        return $this;
+    }
+
+    /**
+     * Get API Key
+     *
+     * @return string
+     */
+    public function getApiKey()
+    {
+        return $this->apiKey;
     }
 
     /**

@@ -17,14 +17,15 @@
     {{ parent() }}
     <script>
     var host_path = "{{ url('root') ~ "api" }}";
+    var api_key = "{{ user.apiKey }}";
     </script>
     {% javascripts
-        '%kernel.root_dir%/../vendor/components/handlebars.js/handlebars.js'
-        '%kernel.root_dir%/../vendor/components/ember/ember.js'
-        '%kernel.root_dir%/../vendor/components/ember-data/ember-data.js'
+        '%kernel.root_dir%/../vendor/handlebars/handlebars/handlebars-v2.0.0.js'
+        '%kernel.root_dir%/../vendor/ember/ember/ember.min.js'
+        '%kernel.root_dir%/../vendor/ember/ember-data/ember-data.prod.js'
         '%kernel.root_dir%/../vendor/eleiva/yii2-noty/assets/jquery.noty.js'
         '%kernel.root_dir%/../vendor/eleiva/yii2-noty/assets/noty.bootstrap.js'
-        '%kernel.root_dir%/../vendor/moment/moment/moment.js'
+        '%kernel.root_dir%/../vendor/momentjs/momentjs/moment.min.js'
 
         '@BBBLoadBalancerAdminBundle/Resources/public/js/application.js'
         '@BBBLoadBalancerAdminBundle/Resources/public/js/controllers/user_controller.js'

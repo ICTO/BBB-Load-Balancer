@@ -52,7 +52,9 @@
 		  		{{/if }}
 		  	</td>
 		  	<td>
-		  		{{#link-to "server.meetings" server class="btn btn-primary btn-xs" }}List meetings{{/link-to}}
+		  		{{#if server.up }}
+		  			{{#link-to "server.meetings" server class="btn btn-primary btn-xs" }}List meetings{{/link-to}}
+		  		{{/if}}
 		  		<button type="button" class="btn btn-primary btn-xs" {{action "toggleEditServer" on="click"}}>Edit</button>
 		  	</td>
 

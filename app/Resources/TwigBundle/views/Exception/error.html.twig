@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <title>An Error Occurred: {{ status_text }}</title>
+    </head>
+    <body style='background: url("/bundles/teamspotthemealfa/images/footer-bg.png");font-family: "Open Sans", sans-serif, Arial;'>
+        <div class="error" style="max-width: 600px;padding: 20px;background-color: whitesmoke;border: 1px solid #EEE;margin: auto;-webkit-border-radius: 10px;-moz-border-radius: 10px;border-radius: 10px;">
+            <p style="font-size:40px; font-weight: bold; margin-bottom: 0px;margin-top: 0px;" >Error {{ status_code }}</p>
+            <p style="margin-bottom: 40px;">{{ status_text }}</p>
+        </div>
+    </body>
+</html>

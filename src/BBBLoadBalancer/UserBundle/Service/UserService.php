@@ -19,11 +19,12 @@ class UserService
     protected $mailer;
     protected $templating;
     protected $validator;
+    protected $logger;
 
     /**
      * Constructor.
      */
-    public function __construct($dm, $security_context, $mailer, $email_noreply, $email_name, $site_name, $templating, $validator)
+    public function __construct($dm, $security_context, $mailer, $email_noreply, $email_name, $site_name, $templating, $validator, $logger)
     {
         $this->dm = $dm->getManager();
         $this->sc = $security_context;
@@ -33,6 +34,7 @@ class UserService
         $this->site_name = $site_name;
         $this->templating = $templating;
         $this->validator = $validator;
+        $this->logger = $logger;
     }
 
     /**
@@ -71,12 +73,14 @@ class UserService
         $errors = $this->validator->validate($user);
         if($errors->count()){
             foreach($errors as $error){
-                throw new ValidatorException($error->getMessage());
+                throw new \Exception($error->getMessage(), 406);
             }
         }
 
         $this->dm->persist($user);
         $this->dm->flush();
+
+        $this->logger->info('Saved User', array('userId' => $user->getId()));
     }
 
     /**
@@ -102,6 +106,7 @@ class UserService
         $user->setEnabled(true);
         $user->setDate(new DateTime('now', new DateTimeZone("UTC")));
         $user->setSecretKey($this->generateSecretKey());
+        $user->setApiKey($this->generateSecretKey(50));
         return $user;
     }
 

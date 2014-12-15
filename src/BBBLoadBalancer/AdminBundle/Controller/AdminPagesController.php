@@ -18,7 +18,9 @@ class AdminPagesController extends Controller
     public function adminAction()
     {
         // This page return an EmberJS application
-        return array();
+        return array(
+            'user' => $this->get('user')->getActiveUser()
+        );
     }
 
     /**

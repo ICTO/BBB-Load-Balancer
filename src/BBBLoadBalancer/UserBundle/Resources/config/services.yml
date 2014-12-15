@@ -1,4 +1,9 @@
 services:
     user:
         class: BBBLoadBalancer\UserBundle\Service\UserService
-        arguments: [ @doctrine_mongodb, @security.context, @mailer, %app.email_noreply%, %app.email_name%, %app.site_name%, @templating, @validator ]
+        arguments: [ @doctrine_mongodb, @security.context, @mailer, %app.email_noreply%, %app.email_name%, %app.site_name%, @templating, @validator, @logger ]
+    validapikey_annotation_driver:
+        class: BBBLoadBalancer\UserBundle\Annotations\Driver\AnnotationDriver
+        tags: [{name: kernel.event_listener, event: kernel.controller, method: onKernelController}]
+        arguments: [ @annotation_reader, @request, @user ]
+        scope: request
