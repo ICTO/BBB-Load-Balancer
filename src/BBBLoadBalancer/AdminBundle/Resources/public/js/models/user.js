@@ -5,6 +5,5 @@ Admin.User = DS.Model.extend({
   apiKey: DS.attr('string'),
   timezone: DS.attr('string'),
   password1: DS.attr('string'),
-  password2: DS.attr('string'),
-  isActive: DS.attr('boolean')
+  password2: DS.attr('string')
 });

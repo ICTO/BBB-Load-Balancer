@@ -1,0 +1,90 @@
+<script type="text/x-handlebars" data-template-name="api">
+	<h2>API overview</h2>
+	<br/>
+	<h3>BigBlueButton API</h3>
+	<p>The loadbalancer uses the same API as the default BBB API. The documentation can be found on <a href="https://code.google.com/p/bigbluebutton/wiki/API">https://code.google.com/p/bigbluebutton/wiki/API</a>. </p>
+	<br/>
+	<p>The following API methods are currently supported:</p>
+	<ul>
+		<li>create</li>
+		<li>join</li>
+		<li>end</li>
+		<li>isMeetingRunning</li>
+		<li>getMeetingInfo</li>
+		<li>isMeetingRunning</li>
+		<li>getMeetings</li>
+	</ul>
+	<p>The following API methods are currently <strong>NOT</strong> supported:</p>
+	<ul>
+		<li>getDefaultConfigXML</li>
+		<li>setConfigXML</li>
+		<li>getRecordings</li>
+		<li>publishRecordings</li>
+		<li>deleteRecordings</li>
+	</ul>
+	<p>To use the default API, you must prepend <kbd>/bigbluebutton/api/</kbd> just like you would without the load balancer.</p>
+	<br/>
+	<h3>BBB Load Balancer API</h3>
+	<p>The API can be used on the endpoint "/api" and can only be used with the JSON format. To get access, you need to add the API key to the header of the request with the name "API-key". <br/>Example header: API-key:CTCTn8rMMvjj2AGoQkUBC5iEpfbvplb1eOVCWmoJRH2ThIi83c. Each user has his own API key.</p>
+	<br/>
+	<h4>List servers</h4>
+	<p><kbd>/api/servers (GET)</kbd></p>
+	<br/>
+	<h4>Add server</h4>
+	<p><kbd>/api/servers (POST)</kbd></p>
+	<p>Request body: {"server":{"name":"test","url":"http://192.168.33.15","up":false,"enabled":true}}</p>
+	<br/>
+	<h4>Edit server</h4>
+	<p><kbd>/api/servers/{server_id} (PUT)</kbd></p>
+	<p>Request body:
+<pre>
+{
+	"server": {
+		"name":"test",
+		"url":"http://192.168.33.15",
+		"up":false,
+		"enabled":true
+	}
+}
+</pre></p>
+	<br/>
+	<h4>Remove server</h4>
+	<p><kbd>/api/servers/{server_id} (DELETE)</kbd></p>
+	<br/>
+	<h4>List users</h4>
+	<p><kbd>/api/users (GET)</kbd></div>
+	<br/>
+	<h4>Add user</h4>
+	<p><kbd>/api/users (POST)</kbd></p>
+	<p>Request body:
+<pre>
+{
+	"user":{
+		"firstName":"fname",
+		"lastName":"lname",
+		"email":"email@email.com",
+		"timezone":"Europe/Brussels",
+		"password1":"testtest",
+		"password2":"testtest"
+	}
+}</pre></p>
+	<br/>
+	<h4>Edit user</h4>
+	<p><kbd>/api/users/{user_id} (PUT)</kbd></p>
+	<p>Request body:
+<pre>
+{
+	"user":{
+		"firstName":"Bruno",
+		"lastName":"Goossens",
+		"email":"brunogoossens@gmail.com",
+		"timezone":"Europe/Brussels",
+		"password1":null,
+		"password2":null
+	}
+}</pre></p>
+	<p>If you don't need to reset the password, set password1 and password2 to null.</p>
+	<br/>
+	<h4>Remove user</h4>
+	<p><kbd>/api/users/{user_id} (DELETE)</kbd></p>
+</script>

@@ -42,6 +42,17 @@ class MeetingService
     }
 
     /**
+     * Remove meetings from Server
+     */
+    public function removeMeetingsFromServer($server){
+        return $this->dm->createQueryBuilder('BBBLoadBalancerAdminBundle:Meeting')
+                ->remove()
+                ->field('server')->equals($server->getId())
+                ->getQuery()
+                ->execute();
+    }
+
+    /**
      * Save the Meeting
      */
     public function saveMeeting($meeting){

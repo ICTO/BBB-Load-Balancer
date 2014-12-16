@@ -31,10 +31,13 @@ class ServerAPIController extends Controller
             // try to connect to server
             $up = false;
             try {
-                $result = $this->get('bbb')->doRequest($server->getUrl()."/bigbluebutton/api", 1); // low timeout for faster pages when server is down
+                $result = $this->get('bbb')->doRequest($server->getUrl()."/bigbluebutton/api");
                 $xml = new \SimpleXMLElement($result);
                 if($xml->returncode == "SUCCESS"){
                     $up = true;
+                }
+                else {
+                    $this->get('logger')->error("Server did not respond.", array("Server_id" => $server->getId(), "Server URL" => $server->getUrl()));
                 }
             } catch (\Exception $e) {}
 
@@ -66,14 +69,18 @@ class ServerAPIController extends Controller
         $server->setEnabled($data['server']['enabled']);
 
         $this->get('server')->saveServer($server);
+        $this->get('logger')->info("Server added.", array("Server ID" => $server->getId(), "Server URL" => $server->getUrl()));
 
         // try to connect to server
         $up = false;
         try {
-            $result = $this->get('bbb')->doRequest($server->getUrl()."/bigbluebutton/api", 1); // low timeout for faster pages when server is down
+            $result = $this->get('bbb')->doRequest($server->getUrl()."/bigbluebutton/api");
             $xml = new \SimpleXMLElement($result);
             if($xml->returncode == "SUCCESS"){
                 $up = true;
+            }
+            else {
+                $this->get('logger')->error("Server did not respond.", array("Server_id" => $server->getId(), "Server URL" => $server->getUrl()));
             }
         } catch (\Exception $e) {}
 
@@ -108,11 +115,12 @@ class ServerAPIController extends Controller
         $server->setEnabled($data['server']['enabled']);
 
         $this->get('server')->saveServer($server);
+        $this->get('logger')->info("Server edited.", array("Server ID" => $server->getId(), "Server URL" => $server->getUrl()));
 
         // try to connect to server
         $up = false;
         try {
-            $result = $this->get('bbb')->doRequest($server->getUrl()."/bigbluebutton/api", 1);
+            $result = $this->get('bbb')->doRequest($server->getUrl()."/bigbluebutton/api");
             $xml = new \SimpleXMLElement($result);
             if($xml->returncode == "SUCCESS"){
                 $up = true;
@@ -145,6 +153,7 @@ class ServerAPIController extends Controller
             throw new NotFoundHttpException("Server not found");
         }
 
+        $this->get('logger')->info("Server removed.", array("Server ID" => $server->getId(), "Server URL" => $server->getUrl()));
         $this->get('server')->removeServer($server);
 
         return new JsonResponse(array());

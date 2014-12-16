@@ -37,12 +37,18 @@ class BBBAPIController extends Controller
         }
 
         $return = $this->get('bbb')->doRequest($server->getUrl() . $this->get('bbb')->cleanUri($request->getRequestUri()));
+
+        if(!$return){
+            return $this->errorResponse($server);
+        }
+
         $xml = new \SimpleXMLElement($return);
 
         if($save){
             $meeting->setMeetingId($xml->meetingID->__toString());
             $meeting->setServer($server);
             $this->get('meeting')->saveMeeting($meeting);
+            $this->get('logger')->info("Created new meeting.", array("Server ID" => $server->getId(), "Server URL" => $server->getUrl(), "Meeting ID" => $meeting->getId(), "BBB meeting ID" => $meeting->getMeetingId()));
         }
 
         $response = new Response($return);
@@ -65,6 +71,10 @@ class BBBAPIController extends Controller
         $join_url = $server->getUrl() . $this->get('bbb')->cleanUri($request->getRequestUri());
         $return = $this->get('bbb')->doRequest($join_url);
 
+        if($return === false){
+            return $this->errorResponse($server);
+        }
+
         // if the return has an error message
         if(!empty($return)){
             $response = new Response($return);
@@ -72,6 +82,8 @@ class BBBAPIController extends Controller
 
             return $response;
         }
+
+        $this->get('logger')->info("Joining meeting.", array("Server ID" => $server->getId(), "Server URL" => $server->getUrl(), "Meeting ID" => $meeting->getId(), "BBB meeting ID" => $meeting->getMeetingId()));
 
         // redirect to the join url
         return $this->redirect($join_url);
@@ -86,12 +98,22 @@ class BBBAPIController extends Controller
         $meetingID = $request->get('meetingID');
         $meeting = $this->get('meeting')->getMeetingBy(array('meetingId' => $meetingID));
         if(!$meeting){
-            return new Response("<response><returncode>SUCCESS</returncode><running>false</running></response>");
+            $response = new Response("
+                <response>
+                    <returncode>SUCCESS</returncode>
+                    <running>false</running>
+                </response>");
+            $response->headers->set('Content-Type', 'text/xml');
+            return $response;
         }
 
         $server = $meeting->getServer();
 
         $return = $this->get('bbb')->doRequest($server->getUrl() . $this->get('bbb')->cleanUri($request->getRequestUri()));
+
+        if(!$return){
+            return $this->errorResponse($server);
+        }
 
         $response = new Response($return);
         $response->headers->set('Content-Type', 'text/xml');
@@ -113,6 +135,12 @@ class BBBAPIController extends Controller
         $end_url = $server->getUrl() . $this->get('bbb')->cleanUri($request->getRequestUri());
         $return = $this->get('bbb')->doRequest($end_url);
 
+        if(!$return){
+            return $this->errorResponse($server);
+        }
+
+        $this->get('logger')->info("Ending meeting.", array("Server ID" => $server->getId(), "Server URL" => $server->getUrl(), "Meeting ID" => $meeting->getId(), "BBB meeting ID" => $meeting->getMeetingId()));
+
         $response = new Response($return);
         $response->headers->set('Content-Type', 'text/xml');
 
@@ -133,6 +161,10 @@ class BBBAPIController extends Controller
         $info_url = $server->getUrl() . $this->get('bbb')->cleanUri($request->getRequestUri());
         $return = $this->get('bbb')->doRequest($info_url);
 
+        if(!$return){
+            return $this->errorResponse($server);
+        }
+
         $response = new Response($return);
         $response->headers->set('Content-Type', 'text/xml');
 
@@ -145,7 +177,47 @@ class BBBAPIController extends Controller
      */
     public function getMeetingsAction(Request $request)
     {
-        // @TODO : not yet supported
+        $servers = $this->get('server')->getServersBy(array('enabled' => true));
+        $meetings_xml = "";
+        foreach($servers as $server){
+            $meetings_url = $server->getUrl() . $this->get('bbb')->cleanUri($request->getRequestUri());
+            $return = $this->get('bbb')->doRequest($meetings_url);
+
+            if(!$return){
+                $this->get('logger')->error("Server did not respond.", array("Server_id" => $server->getId(), "Server URL" => $server->getUrl()));
+            }
+            else {
+                $xml = new \SimpleXMLElement($return);
+                if(!empty($xml->meetings)){
+                    foreach($xml->meetings as $meeting){
+                        $meetings_xml .= $meeting->meeting->asXML();
+                    }
+                }
+            }
+        }
+
+        if(empty($meetings_xml)){
+            $response = new Response("
+                <response>
+                    <returncode>SUCCESS</returncode>
+                    <meetings/>
+                    <messageKey>noMeetings</messageKey>
+                    <message>no meetings were found</message>
+                </response>");
+            $response->headers->set('Content-Type', 'text/xml');
+
+            return $response;
+        }
+
+        $response = new Response("
+            <response>
+                <returncode>SUCCESS</returncode>
+                <meetings>" . $meetings_xml . "</meetings>
+            </response>");
+        $response->headers->set('Content-Type', 'text/xml');
+
+        return $response;
+
     }
 
     /**
@@ -191,5 +263,21 @@ class BBBAPIController extends Controller
     public function setConfigXMLAction(Request $request)
     {
         // @TODO : not yet supported
+    }
+
+    /**
+     * return error response
+     */
+    private function errorResponse($server){
+        $this->get('logger')->error("Server did not respond.", array("Server_id" => $server->getId(), "Server URL" => $server->getUrl()));
+
+        $response = new Response("
+            <response>
+                <returncode>FAILED</returncode>
+                <messageKey>connectionError</messageKey>
+                <message>could not connect to the server</message>
+            </response>");
+        $response->headers->set('Content-Type', 'text/xml');
+        return $response;
     }
 }

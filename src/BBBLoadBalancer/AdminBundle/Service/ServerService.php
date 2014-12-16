@@ -11,15 +11,17 @@ class ServerService
     protected $dm;
     protected $bbb;
     protected $validator;
+    protected $meeting;
 
     /**
      * Constructor.
      */
-    public function __construct($dm, $bbb, $validator)
+    public function __construct($dm, $bbb, $validator, $meeting)
     {
         $this->dm = $dm->getManager();
         $this->bbb = $bbb;
         $this->validator = $validator;
+        $this->meeting = $meeting;
     }
 
     /**
@@ -51,7 +53,7 @@ class ServerService
         $errors = $this->validator->validate($server);
         if($errors->count()){
             foreach($errors as $error){
-                throw new ValidatorException($error->getMessage());
+                throw new ValidatorException($error->getMessage(), 406);
             }
         }
         $this->dm->persist($server);
@@ -65,6 +67,9 @@ class ServerService
         if (!$server) {
             throw new NotFoundHttpException();
         }
+
+        // first remove all meetings attached to the server
+        $this->meeting->removeMeetingsFromServer($server);
 
         $this->dm->remove($server);
         $this->dm->flush();

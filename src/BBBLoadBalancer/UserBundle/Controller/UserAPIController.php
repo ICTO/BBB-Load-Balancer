@@ -12,6 +12,7 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use BBBLoadBalancer\UserBundle\Annotations\ValidAPIKey;
+use Symfony\Component\Validator\Exception\ValidatorException;
 
 class UserAPIController extends Controller
 {
@@ -86,6 +87,7 @@ class UserAPIController extends Controller
         $user->setPassword($password);
 
         $this->get('user')->saveUser($user);
+        $this->get('logger')->info("User added.", array("User ID" => $user->getId(), "User Email" => $user->getEmail()));
 
         $return['user'] = array(
             'id' => $user->getId(),
@@ -133,6 +135,7 @@ class UserAPIController extends Controller
         }
 
         $this->get('user')->saveUser($user);
+        $this->get('logger')->info("User edited.", array("User ID" => $user->getId(), "User Email" => $user->getEmail()));
 
         $return['user'] = array(
             'id' => $user->getId(),
@@ -167,6 +170,7 @@ class UserAPIController extends Controller
             throw new NotFoundHttpException("It is not possible to remove the acitve user");
         }
 
+        $this->get('logger')->info("User removed.", array("User ID" => $user->getId(), "User Email" => $user->getEmail()));
         $this->get('user')->removeUser($user);
 
         $return = array();

@@ -73,7 +73,7 @@ class UserService
         $errors = $this->validator->validate($user);
         if($errors->count()){
             foreach($errors as $error){
-                throw new \Exception($error->getMessage(), 406);
+                throw new ValidatorException($error->getMessage(), 406);
             }
         }
 

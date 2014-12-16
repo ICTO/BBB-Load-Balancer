@@ -30,7 +30,7 @@ class BBBService
 		}
 	}
 
-	public function doRequest($url, $timeout = 5){
+	public function doRequest($url, $timeout = 2){
         if (!function_exists('curl_init')){
 			throw new \Exception('Sorry cURL is not installed!');
         }
