@@ -151,10 +151,8 @@ class UserService
 
     /**
      * User login
-     *
-     * Add the request parameter to get a redirect to the refered page.
      */
-    public function userLogin($user, $request = false, $return_url = false){
+    public function userLogin($user){
         $token = new UsernamePasswordToken($user, $user->getPassword(), 'user_login', $user->getRoles());
         $this->sc->setToken($token);
     }
