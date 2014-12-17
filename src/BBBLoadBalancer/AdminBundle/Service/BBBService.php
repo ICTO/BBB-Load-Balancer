@@ -12,9 +12,13 @@ class BBBService
     public function __construct($salt)
     {
         $this->salt = $salt;
+
+        // Setting for BBB api lib
+        ini_set("allow_url_fopen", "On");
     }
 
 	public function getMeetings($server){
+		// @TODO: remove bigbluebutton lib because it sucks
 		$bbb = new \BigBlueButton($this->salt, $server->getUrl() . "/bigbluebutton/");
 		try {
 			$result = $bbb->getMeetingsWithXmlResponseArray();

@@ -19,6 +19,7 @@
     <script>
     var host_path = "{{ url('root') ~ "api" }}";
     var api_key = "{{ user.apiKey }}";
+    var timezone_offset = {{ timezoneOffset }};
     </script>
     {% javascripts
         '%kernel.root_dir%/../vendor/handlebars/handlebars/handlebars-v2.0.0.js'

@@ -1,5 +1,8 @@
 <script type="text/x-handlebars" data-template-name="servers">
-	<div class="alert alert-info" role="alert">All servers must be configured with the same salt</div>
+	<div class="alert alert-info" role="alert">
+		<span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span>
+		<span>All servers must be configured with the same salt</span>
+	</div>
 	<div class="table-responsive">
 	  <table class="table table-hover table-striped">
 	  	<tr>
@@ -26,11 +29,15 @@
 		  		{{/if }}
 		  	<td>
   			    <div>
-  			    	{{#if server.up }}
-  			    		<span class="label label-success">Active</span>
-					{{else}}
-						<span class="label label-danger">Down</span>
-					{{/if}}
+  			    	{{#unless server.isEditing }}
+	  			    	{{#if server.enabled }}
+		  			    	{{#if server.up }}
+		  			    		<span class="label label-success">Active</span>
+							{{else}}
+								<span class="label label-danger">Down</span>
+							{{/if}}
+						{{/if}}
+					{{/unless}}
   			    </div>
 		  	</td>
 		  	<td>

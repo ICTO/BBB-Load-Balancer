@@ -42,6 +42,7 @@ class AnnotationDriver{
                 if(!$user){
                     throw new AccessDeniedHttpException();
                 }
+                $this->user->userLogin($user);
             }
         }
     }

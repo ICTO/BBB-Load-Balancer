@@ -11,10 +11,6 @@ use Symfony\Component\Validator\Exception\ValidatorException;
 
 class BBBAPIController extends Controller
 {
-    public function __construct(){
-        // Setting for BBB api lib
-        ini_set("allow_url_fopen", "On");
-    }
     /**
      * @Route("/bigbluebutton/api/create", defaults={"_format": "xml"})
      * @Method({"GET"})
@@ -65,6 +61,9 @@ class BBBAPIController extends Controller
     {
         $meetingID = $request->get('meetingID');
         $meeting = $this->get('meeting')->getMeetingBy(array('meetingId' => $meetingID));
+        if(!$meeting){
+            return errorMeeting($meetingID);
+        }
 
         $server = $meeting->getServer();
 
@@ -129,6 +128,9 @@ class BBBAPIController extends Controller
     {
         $meetingID = $request->get('meetingID');
         $meeting = $this->get('meeting')->getMeetingBy(array('meetingId' => $meetingID));
+        if(!$meeting){
+            return errorMeeting($meetingID);
+        }
 
         $server = $meeting->getServer();
 
@@ -155,6 +157,9 @@ class BBBAPIController extends Controller
     {
         $meetingID = $request->get('meetingID');
         $meeting = $this->get('meeting')->getMeetingBy(array('meetingId' => $meetingID));
+        if(!$meeting){
+            return errorMeeting($meetingID);
+        }
 
         $server = $meeting->getServer();
 
@@ -269,13 +274,29 @@ class BBBAPIController extends Controller
      * return error response
      */
     private function errorResponse($server){
-        $this->get('logger')->error("Server did not respond.", array("Server_id" => $server->getId(), "Server URL" => $server->getUrl()));
+        $this->get('logger')->error("Server did not respond.", array("Server ID" => $server->getId(), "Server URL" => $server->getUrl()));
 
         $response = new Response("
             <response>
                 <returncode>FAILED</returncode>
                 <messageKey>connectionError</messageKey>
                 <message>could not connect to the server</message>
+            </response>");
+        $response->headers->set('Content-Type', 'text/xml');
+        return $response;
+    }
+
+    /**
+     * return error response
+     */
+    private function errorMeeting($meeting_id){
+        $this->get('logger')->error("Meeting ID was not found.", array("Meeting ID" => $meeting_id));
+
+        $response = new Response("
+            <response>
+                <returncode>FAILED</returncode>
+                <messageKey>meetingIdError</messageKey>
+                <message>could not found meeting</message>
             </response>");
         $response->headers->set('Content-Type', 'text/xml');
         return $response;

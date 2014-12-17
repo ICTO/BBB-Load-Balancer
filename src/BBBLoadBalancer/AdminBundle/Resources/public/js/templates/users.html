@@ -27,11 +27,7 @@
 		  		{{/if }}
 	  		</td>
 	  		<td>
-  			    {{#if user.isEditing }}
-			  		<div>-</div>
-  			    {{else}}
-  			    	<div>{{user.apiKey}}</div>
-		  		{{/if }}
+  			    <div class="api-key">{{user.apiKey}}</div>
 	  		</td>
 		  	<td>
 				{{#if user.isEditing }}

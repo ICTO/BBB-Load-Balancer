@@ -30,16 +30,18 @@ class ServerAPIController extends Controller
         foreach($servers as $server){
             // try to connect to server
             $up = false;
-            try {
+            if($server->getEnabled()){
                 $result = $this->get('bbb')->doRequest($server->getUrl()."/bigbluebutton/api");
-                $xml = new \SimpleXMLElement($result);
-                if($xml->returncode == "SUCCESS"){
-                    $up = true;
+                if($result) {
+                    $xml = new \SimpleXMLElement($result);
+                    if($xml->returncode == "SUCCESS"){
+                        $up = true;
+                    }
                 }
                 else {
                     $this->get('logger')->error("Server did not respond.", array("Server_id" => $server->getId(), "Server URL" => $server->getUrl()));
                 }
-            } catch (\Exception $e) {}
+            }
 
             $return['servers'][] = array(
                 'id' => $server->getId(),
@@ -73,16 +75,17 @@ class ServerAPIController extends Controller
 
         // try to connect to server
         $up = false;
-        try {
+        if($server->getEnabled()){
             $result = $this->get('bbb')->doRequest($server->getUrl()."/bigbluebutton/api");
-            $xml = new \SimpleXMLElement($result);
-            if($xml->returncode == "SUCCESS"){
-                $up = true;
-            }
-            else {
+            if($result){
+                $xml = new \SimpleXMLElement($result);
+                if($xml->returncode == "SUCCESS"){
+                    $up = true;
+                }
+            } else {
                 $this->get('logger')->error("Server did not respond.", array("Server_id" => $server->getId(), "Server URL" => $server->getUrl()));
             }
-        } catch (\Exception $e) {}
+        }
 
         $return['server'] = array(
             'id' => $server->getId(),
@@ -119,13 +122,17 @@ class ServerAPIController extends Controller
 
         // try to connect to server
         $up = false;
-        try {
+        if($server->getEnabled()){
             $result = $this->get('bbb')->doRequest($server->getUrl()."/bigbluebutton/api");
-            $xml = new \SimpleXMLElement($result);
-            if($xml->returncode == "SUCCESS"){
-                $up = true;
+            if($result){
+                $xml = new \SimpleXMLElement($result);
+                if($xml->returncode == "SUCCESS"){
+                    $up = true;
+                }
+            } else {
+                $this->get('logger')->error("Server did not respond.", array("Server_id" => $server->getId(), "Server URL" => $server->getUrl()));
             }
-        } catch (\Exception $e) {}
+        }
 
         $return['server'] = array(
             'id' => $server->getId(),
