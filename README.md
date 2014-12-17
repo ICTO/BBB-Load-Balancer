@@ -2,8 +2,8 @@ BBB Load balancer
 ========================
 
 This project was developed to load balance BigBlueButton servers.
-It is written in PHP and based on the Symfony Standard Edition.
-A web application is included to manage servers and users, but it can also be managed with the API.
+It is written in PHP and based on the Symfony Standard Edition framework.
+A web application is included to manage servers and users, but it can also be managed with the API. The API docs can be found on the web app.
 
 The loadbalancer uses the same API as the default [BBB API](https://code.google.com/p/bigbluebutton/wiki/API).
 
