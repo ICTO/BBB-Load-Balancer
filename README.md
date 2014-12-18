@@ -90,3 +90,7 @@ Start server (without apache or nginx)
 	app/console server:run --env=prod
 
 If you want to configure an other server like apache or nginx, you can follow [this](http://symfony.com/doc/current/cookbook/configuration/web_server_configuration.html) guide.
+
+To automatically enable and disable servers based on there status, you can add this cronjob.
+
+    * * * * * /path/to/project/app/console bbblb bbblb:servers:check --env=prod
