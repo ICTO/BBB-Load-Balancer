@@ -99,8 +99,8 @@
             "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::installAssets",
             "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::installRequirementsFile",
             "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::removeSymfonyStandardFiles",
-            "php app/console assetic:dump --env=prod",
-            "php app/console cache:clear --env=prod"
+            "php app/console assetic:dump --env=prod --quiet --no-interaction",
+            "php app/console cache:clear --env=prod --quiet --no-interaction"
         ],
         "post-update-cmd": [
             "Incenteev\\ParameterHandler\\ScriptHandler::buildParameters",
@@ -109,8 +109,8 @@
             "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::installAssets",
             "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::installRequirementsFile",
             "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::removeSymfonyStandardFiles",
-            "php app/console assetic:dump --env=prod",
-            "php app/console cache:clear --env=prod"
+            "php app/console assetic:dump --env=prod --quiet --no-interaction",
+            "php app/console cache:clear --env=prod --quiet --no-interaction"
         ]
     },
     "config": {
