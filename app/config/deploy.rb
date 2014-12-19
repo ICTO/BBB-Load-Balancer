@@ -18,7 +18,7 @@ set   :keep_releases, 5
 after "deploy", "deploy:cleanup"
 
 set :shared_files,      ["app/config/parameters.yml"]
-set :shared_children,     [app_path + "/logs", web_path + "/uploads", "vendor", "sessions"]
+set :shared_children,     [app_path + "/logs", web_path + "/uploads", "vendor"]
 
 set :use_composer, true
 set :update_vendors, false
