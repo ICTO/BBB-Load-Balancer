@@ -181,17 +181,10 @@ class ServerAPIController extends Controller
 
         $meetings = $this->get('bbb')->getMeetings($server);
 
-        // return all meetings with info
-        foreach($meetings as $meeting){
-            $dt = new \DateTime('@' . round($meeting['createTime']->__toString()/1000));
-            $return['meetings'][] = array(
-                'id' => $meeting['meetingId']->__toString(),
-                'name' => $meeting['meetingName']->__toString(),
-                'created' => $dt->format('c'),
-                'running' => $meeting['running']->__toString()
-            );
-        }
-
-        return new JsonResponse($return);
+        return new JsonResponse(
+            array(
+                'meetings' => $meetings
+            )
+        );
     }
 }

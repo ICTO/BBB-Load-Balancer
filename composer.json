@@ -4,8 +4,7 @@
     "type": "project",
     "description": "Load balancer for BigBlueButton servers",
     "autoload": {
-        "psr-0": { "": "src/", "SymfonyStandard": "app/" },
-        "files": ["vendor/brunogoossens/bbb-api-php/includes/bbb-api.php"]
+        "psr-0": { "": "src/", "SymfonyStandard": "app/" }
     },
     "repositories": [
         {
@@ -82,8 +81,7 @@
         "ember/ember": "1.9.0",
         "ember/ember-data": "v1.0.0-beta.12",
         "eleiva/yii2-noty": "dev-master",
-        "momentjs/momentjs": "dev-master",
-        "brunogoossens/bbb-api-php": "dev-master"
+        "momentjs/momentjs": "dev-master"
     },
     "require-dev": {
         "sensio/generator-bundle": "~2.3"

@@ -18,20 +18,28 @@ class BBBService
     }
 
 	public function getMeetings($server){
-		// @TODO: remove bigbluebutton lib because it sucks
-		$bbb = new \BigBlueButton($this->salt, $server->getUrl() . "/bigbluebutton/");
-		try {
-			$result = $bbb->getMeetingsWithXmlResponseArray();
-			if ($result['returncode'] == 'SUCCESS') {
-				return array_slice($result, 3);
-			}
-			else {
-				return false;
-			}
-		}
-		catch (\Exception $e) {
-			return false;
-		}
+        $result = $this->doRequest($server->getUrl()."/bigbluebutton/api/"."getMeetings".'?checksum='.sha1("getMeetings".$this->salt));
+        $meetings = array();
+        if($result){
+            $xml = new \SimpleXMLElement($result);
+            if($xml->returncode == "SUCCESS"){
+            	if($xml->meetings->meeting->count()) {
+	            	foreach($xml->meetings->meeting as $meeting){
+	            		$dt = new \DateTime('@' . round($meeting->createTime/1000));
+	            		$meetings[] = array(
+	            			'id' => $meeting->meetingID->__toString(),
+	            			'name' => $meeting->meetingName->__toString(),
+	            			'created' => $dt->format('c'),
+	            			'running' => $meeting->running->__toString()
+	            		);
+	            	}
+	            }
+            }
+
+            return $meetings;
+        } else {
+            return false;
+        }
 	}
 
 	public function doRequest($url, $timeout = 2){
