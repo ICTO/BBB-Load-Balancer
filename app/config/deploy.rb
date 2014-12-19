@@ -4,8 +4,9 @@ set   :application,   "BBB Load Balancer"
 set   :deploy_to,     "/var/www/BBBLoadBalancer"
 set   :domain,        "localhost"
 
-set   :scm,           :git
-set   :repository,    "https://github.com/brunogoossens/BBB-Load-Balancer.git"
+set   :scm,           :none
+set   :repository,    "."
+set   :deploy_via,    :copy
 
 role  :web,           domain
 role  :app,           domain, :primary => true
