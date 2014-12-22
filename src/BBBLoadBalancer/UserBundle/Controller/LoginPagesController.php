@@ -21,6 +21,12 @@ class LoginPagesController extends Controller
      * @Template()
      */
     public function loginAction(){
+        // redirect to setup if no users found.
+        $user = $this->get('user')->getUserBy(array());
+        if(!$user){
+            return $this->redirect($this->generateUrl("setup"));
+        }
+
         $request = $this->getRequest();
         $session = $request->getSession();
 

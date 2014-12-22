@@ -4,39 +4,20 @@
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "f302f1821a177377b359dd6b8a4d55a7",
+    "hash": "4855406542fece1812bb5a94a8a9b9bb",
     "packages": [
         {
-            "name": "brunogoossens/bbb-api-php",
-            "version": "dev-master",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/brunogoossens/bbb-api-php.git",
-                "reference": "4dc6c05c66b29266003f8e80dfecef702995a28e"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/brunogoossens/bbb-api-php/zipball/4dc6c05c66b29266003f8e80dfecef702995a28e",
-                "reference": "4dc6c05c66b29266003f8e80dfecef702995a28e",
-                "shasum": ""
-            },
-            "type": "library",
-            "notification-url": "https://packagist.org/downloads/",
-            "description": "Library to integrate php web applications with BigBlueButton 0.8",
-            "time": "2014-12-07 22:01:39"
-        },
-        {
             "name": "doctrine/annotations",
-            "version": "v1.2.1",
+            "version": "v1.2.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/doctrine/annotations.git",
-                "reference": "6a6bec0670bb6e71a263b08bc1b98ea242928633"
+                "reference": "d63108433190110c0ceb8be6460dda6f78348950"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/doctrine/annotations/zipball/6a6bec0670bb6e71a263b08bc1b98ea242928633",
-                "reference": "6a6bec0670bb6e71a263b08bc1b98ea242928633",
+                "url": "https://api.github.com/repos/doctrine/annotations/zipball/d63108433190110c0ceb8be6460dda6f78348950",
+                "reference": "d63108433190110c0ceb8be6460dda6f78348950",
                 "shasum": ""
             },
             "require": {
@@ -91,7 +72,7 @@
                 "docblock",
                 "parser"
             ],
-            "time": "2014-09-25 16:45:30"
+            "time": "2014-12-18 18:30:08"
         },
         {
             "name": "doctrine/cache",
@@ -1733,8 +1714,7 @@
         "doctrine/mongodb-odm-bundle": 20,
         "ember/ember-data": 10,
         "eleiva/yii2-noty": 20,
-        "momentjs/momentjs": 20,
-        "brunogoossens/bbb-api-php": 20
+        "momentjs/momentjs": 20
     },
     "prefer-stable": false,
     "prefer-lowest": false,
