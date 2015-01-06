@@ -25,6 +25,12 @@ The following API methods are currently **NOT** supported:
 - publishRecordings
 - deleteRecordings
 
+# Quick setup #
+
+You can use a chef recipe to setup your server or setup a vagrant box.
+
+    https://github.com/brunogoossens/BBBLB-Chef-cookbook
+
 # Setup #
 
 Dependencies
