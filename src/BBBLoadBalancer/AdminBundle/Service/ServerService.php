@@ -119,6 +119,7 @@ class ServerService
      * Update server upstatus
      */
     public function updateServerUpStatus(&$server){
+        $before_up = $server->getUp();
         $up = false;
         $result = $this->bbb->doRequest($server->getUrl()."/bigbluebutton/api");
         if($result) {
@@ -127,15 +128,16 @@ class ServerService
                 $up = true;
             }
         }
+        if($up != $before_up){
+            $server->setUp($up);
+            $this->saveServer($server);
 
-        $server->setUp($up);
-        $this->saveServer($server);
-
-        if($up){
-            $this->logger->info("Server is up.", array("Server_id" => $server->getId(), "Server URL" => $server->getUrl()));
-        }
-        else {
-            $this->logger->info("Server is down.", array("Server_id" => $server->getId(), "Server URL" => $server->getUrl()));
+            if($up){
+                $this->logger->info("Server is up.", array("Server_id" => $server->getId(), "Server URL" => $server->getUrl()));
+            }
+            else {
+                $this->logger->info("Server is down.", array("Server_id" => $server->getId(), "Server URL" => $server->getUrl()));
+            }
         }
     }
 }
