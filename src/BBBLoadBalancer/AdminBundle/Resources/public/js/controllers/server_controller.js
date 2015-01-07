@@ -6,15 +6,17 @@ Admin.ServerController = Ember.ObjectController.extend({
   },
   updateUpStatusServer: function() {
 	var server = this.get('model');
-	var controller = this;
-	$.ajax({
-	  dataType: "json",
-	  url: host_path+"/servers/"+server.get('id')+"/up",
-	  headers: {"API-key":api_key}
-	}).done(function(data) {
-		server.set('up', data.up);
-		controller.set('isUpdating', false);
-	});
+	if(server){
+		var controller = this;
+		$.ajax({
+		  dataType: "json",
+		  url: host_path+"/servers/"+server.get('id')+"/up",
+		  headers: {"API-key":api_key}
+		}).done(function(data) {
+			server.set('up', data.up);
+			controller.set('isUpdating', false);
+		});
+	}
   },
   actions: {
     toggleEditServer: function() {
