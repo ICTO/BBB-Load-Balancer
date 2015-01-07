@@ -30,7 +30,11 @@
 		  	<td>
   			    <div>
   			    	{{#unless server.isEditing }}
-	  			    	{{#if server.enabled }}
+	  			    	{{#if server.isUpdating }}
+	  			    	<div class="spinner">
+	  			    		<span class="glyphicon glyphicon-repeat glyphicon-refresh-animate"></span>
+  			    		</div>
+						{{else}}
 		  			    	{{#if server.up }}
 		  			    		<span class="label label-success">Active</span>
 							{{else}}

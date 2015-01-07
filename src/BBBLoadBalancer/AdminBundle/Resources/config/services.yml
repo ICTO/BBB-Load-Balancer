@@ -7,4 +7,4 @@ services:
         arguments: [ %bbb.salt% ]
     server:
         class: BBBLoadBalancer\AdminBundle\Service\ServerService
-        arguments: [ @doctrine_mongodb, @bbb, @validator, @meeting ]
+        arguments: [ @doctrine_mongodb, @bbb, @validator, @meeting, @logger ]

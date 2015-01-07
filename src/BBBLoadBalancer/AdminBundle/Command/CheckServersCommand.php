@@ -22,28 +22,7 @@ class CheckServersCommand extends ContainerAwareCommand
     {
         $servers = $this->getContainer()->get('server')->getServersBy(array());
         foreach ($servers as $server) {
-            $up = false;
-            $result = $this->getContainer()->get('bbb')->doRequest($server->getUrl()."/bigbluebutton/api");
-            if($result) {
-                $xml = new \SimpleXMLElement($result);
-                if($xml->returncode == "SUCCESS"){
-                    $up = true;
-                }
-            }
-
-            // server is up but not enabled, enable server
-            if($up && !$server->getEnabled()){
-                $server->setEnabled(true);
-                $this->getContainer()->get('server')->saveServer($server);
-                $this->getContainer()->get('logger')->info("Enabled Server.", array("Server_id" => $server->getId(), "Server URL" => $server->getUrl()));
-            }
-
-            // server is down and is enabled, disable server
-            if(!$up && $server->getEnabled()){
-                $server->setEnabled(false);
-                $this->getContainer()->get('server')->saveServer($server);
-                $this->getContainer()->get('logger')->info("Disabled Server.", array("Server_id" => $server->getId(), "Server URL" => $server->getUrl()));
-            }
+            $this->getContainer()->get('server')->updateServerUpStatus($server);
         }
     }
 }

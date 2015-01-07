@@ -12,16 +12,18 @@ class ServerService
     protected $bbb;
     protected $validator;
     protected $meeting;
+    protected $logger;
 
     /**
      * Constructor.
      */
-    public function __construct($dm, $bbb, $validator, $meeting)
+    public function __construct($dm, $bbb, $validator, $meeting, $logger)
     {
         $this->dm = $dm->getManager();
         $this->bbb = $bbb;
         $this->validator = $validator;
         $this->meeting = $meeting;
+        $this->logger = $logger;
     }
 
     /**
@@ -87,7 +89,7 @@ class ServerService
      * Get server most idle
      */
     public function getServerMostIdle(){
-        $servers = $this->getServersBy(array('enabled' => true));
+        $servers = $this->getServersBy(array('enabled' => true, 'up' => true));
         $best_server = array(
             'server' => false,
             'count_meetings' => false,
@@ -111,5 +113,29 @@ class ServerService
         }
 
         return $best_server['server'];
+    }
+
+    /**
+     * Update server upstatus
+     */
+    public function updateServerUpStatus(&$server){
+        $up = false;
+        $result = $this->bbb->doRequest($server->getUrl()."/bigbluebutton/api");
+        if($result) {
+            $xml = new \SimpleXMLElement($result);
+            if($xml->returncode == "SUCCESS"){
+                $up = true;
+            }
+        }
+
+        $server->setUp($up);
+        $this->saveServer($server);
+
+        if($up){
+            $this->logger->info("Server is up.", array("Server_id" => $server->getId(), "Server URL" => $server->getUrl()));
+        }
+        else {
+            $this->logger->info("Server is down.", array("Server_id" => $server->getId(), "Server URL" => $server->getUrl()));
+        }
     }
 }

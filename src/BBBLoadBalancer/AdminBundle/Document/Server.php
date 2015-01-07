@@ -39,6 +39,12 @@ class Server
     protected $enabled;
 
     /**
+     * @MongoDB\Boolean
+     * @Assert\Type(type="boolean", message="The value for up is not valid")
+     */
+    protected $up;
+
+    /**
      * Get id
      *
      * @return id $id
@@ -112,5 +118,27 @@ class Server
     public function getEnabled()
     {
         return $this->enabled;
+    }
+
+    /**
+     * Set up
+     *
+     * @param boolean $up
+     * @return self
+     */
+    public function setUp($up)
+    {
+        $this->up = $up;
+        return $this;
+    }
+
+    /**
+     * Get up
+     *
+     * @return boolean $up
+     */
+    public function getUp()
+    {
+        return $this->up;
     }
 }

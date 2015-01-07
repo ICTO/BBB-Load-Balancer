@@ -25,29 +25,14 @@ class ServerAPIController extends Controller
             'servers' => array()
         );
 
-        // return all users
+        // return all servers
         $servers = $this->get('server')->getServersBy(array());
         foreach($servers as $server){
-            // try to connect to server
-            $up = false;
-            if($server->getEnabled()){
-                $result = $this->get('bbb')->doRequest($server->getUrl()."/bigbluebutton/api");
-                if($result) {
-                    $xml = new \SimpleXMLElement($result);
-                    if($xml->returncode == "SUCCESS"){
-                        $up = true;
-                    }
-                }
-                else {
-                    $this->get('logger')->error("Server did not respond.", array("Server_id" => $server->getId(), "Server URL" => $server->getUrl()));
-                }
-            }
-
             $return['servers'][] = array(
                 'id' => $server->getId(),
                 'name' => $server->getName(),
                 'url' => $server->getURL(),
-                'up' => $up,
+                'up' => $server->getUp(),
                 'enabled' => $server->getEnabled()
             );
         }
@@ -69,30 +54,17 @@ class ServerAPIController extends Controller
         $server->setName($data['server']['name']);
         $server->setURL($data['server']['url']);
         $server->setEnabled($data['server']['enabled']);
+        $server->setUp(false);
 
         $this->get('server')->saveServer($server);
         $this->get('logger')->info("Server added.", array("Server ID" => $server->getId(), "Server URL" => $server->getUrl()));
-
-        // try to connect to server
-        $up = false;
-        if($server->getEnabled()){
-            $result = $this->get('bbb')->doRequest($server->getUrl()."/bigbluebutton/api");
-            if($result){
-                $xml = new \SimpleXMLElement($result);
-                if($xml->returncode == "SUCCESS"){
-                    $up = true;
-                }
-            } else {
-                $this->get('logger')->error("Server did not respond.", array("Server_id" => $server->getId(), "Server URL" => $server->getUrl()));
-            }
-        }
 
         $return['server'] = array(
             'id' => $server->getId(),
             'name' => $server->getName(),
             'url' => $server->getURL(),
             'enabled' => $server->getEnabled(),
-            'up' => $up,
+            'up' => $server->getUp(),
         );
 
         return new JsonResponse($return);
@@ -120,26 +92,13 @@ class ServerAPIController extends Controller
         $this->get('server')->saveServer($server);
         $this->get('logger')->info("Server edited.", array("Server ID" => $server->getId(), "Server URL" => $server->getUrl()));
 
-        // try to connect to server
-        $up = false;
-        if($server->getEnabled()){
-            $result = $this->get('bbb')->doRequest($server->getUrl()."/bigbluebutton/api");
-            if($result){
-                $xml = new \SimpleXMLElement($result);
-                if($xml->returncode == "SUCCESS"){
-                    $up = true;
-                }
-            } else {
-                $this->get('logger')->error("Server did not respond.", array("Server_id" => $server->getId(), "Server URL" => $server->getUrl()));
-            }
-        }
 
         $return['server'] = array(
             'id' => $server->getId(),
             'name' => $server->getName(),
             'url' => $server->getURL(),
             'enabled' => $server->getEnabled(),
-            'up' => $up,
+            'up' => $server->getUp(),
         );
 
         return new JsonResponse($return);
@@ -186,5 +145,28 @@ class ServerAPIController extends Controller
                 'meetings' => $meetings
             )
         );
+    }
+
+    /**
+     * @Route("/api/servers/{id}/up", name="server_up_status", defaults={"_format": "json"})
+     * @Method({"GET"})
+     * @ValidAPIKey
+     */
+    public function getServerUpStatusAction(Request $request, $id)
+    {
+        $server = $this->get('server')->getServerById($id);
+
+        if(!$server){
+            throw new NotFoundHttpException("Server not found");
+        }
+
+        // try to connect to server
+        $this->get('server')->updateServerUpStatus($server);
+
+        $return = array(
+            'up' => $server->getUp(),
+        );
+
+        return new JsonResponse($return);
     }
 }
