@@ -12,6 +12,32 @@ use Symfony\Component\Validator\Exception\ValidatorException;
 class BBBAPIController extends Controller
 {
     /**
+     * @Route("/bigbluebutton/api", defaults={"_format": "xml"})
+     * @Method({"GET"})
+     */
+    public function statusAction(Request $request)
+    {
+    	$servers = $this->get('server')->getServersBy(array("enabled" => true, "up" => true));
+    	if($servers){
+    		$return = "<response>
+    					   <returncode>SUCCESS</returncode>
+    					   <version></version>
+					   </response>";
+    	} else {
+    		$return = "<response>                
+		    			   <returncode>FAILED</returncode>
+			               <messageKey>noBBBServersActive</messageKey>
+			               <message>The BBB Load balancer has no available BBB servers.</message>
+		               </response>";
+    	}
+
+        $response = new Response($return);
+        $response->headers->set('Content-Type', 'text/xml');
+
+        return $response;
+    }
+
+    /**
      * @Route("/bigbluebutton/api/create", defaults={"_format": "xml"})
      * @Method({"GET"})
      */
