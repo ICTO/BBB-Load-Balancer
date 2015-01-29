@@ -97,7 +97,11 @@ class ServerService
         foreach($servers as $server) {
             $meetings = $this->bbb->getMeetings($server);
             $count = 0;
-            if(is_array($meetings)){
+            if($meetings === false){
+                // check if server is down.
+                $this->updateServerUpStatus($server);
+            }
+            else if(is_array($meetings)){
                 foreach($meetings as $meeting){
                     //if($meeting['running']->__toString() == "true"){
                         $count++;

@@ -24,7 +24,7 @@ class BBBAPIController extends Controller
     					   <version></version>
 					   </response>";
     	} else {
-    		$return = "<response>                
+    		$return = "<response>
 		    			   <returncode>FAILED</returncode>
 			               <messageKey>noBBBServersActive</messageKey>
 			               <message>The BBB Load balancer has no available BBB servers.</message>
@@ -301,6 +301,8 @@ class BBBAPIController extends Controller
      */
     private function errorResponse($server){
         $this->get('logger')->error("Server did not respond.", array("Server ID" => $server->getId(), "Server URL" => $server->getUrl()));
+
+        $this->get('server')->updateServerUpStatus($server);
 
         $response = new Response("
             <response>

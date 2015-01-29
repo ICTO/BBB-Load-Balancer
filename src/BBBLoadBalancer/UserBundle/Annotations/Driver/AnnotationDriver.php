@@ -4,7 +4,6 @@ namespace BBBLoadBalancer\UserBundle\Annotations\Driver;
 
 use Doctrine\Common\Annotations\Reader;//This thing read annotations
 use Symfony\Component\HttpKernel\Event\FilterControllerEvent;//Use essential kernel component
-use Teamspot\AccessBundle\Annotations;//Use our annotation
 use Symfony\Component\HttpFoundation\Response;// For example I will throw 403, if access denied
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 use BBBLoadBalancer\UserBundle\Annotations\ValidAPIKey;
