@@ -116,6 +116,11 @@ class User implements AdvancedUserInterface
     protected $timezone;
 
     /**
+     * @MongoDB\String
+     */
+    protected $casUid;
+
+    /**
      * Get id
      *
      * @return integer
@@ -432,6 +437,29 @@ class User implements AdvancedUserInterface
     public function getLastName()
     {
         return $this->lastName;
+    }
+
+    /**
+     * Set cas Uid
+     *
+     * @param string $casUid
+     * @return User
+     */
+    public function setCasUid($casUid)
+    {
+        $this->casUid = $casUid;
+
+        return $this;
+    }
+
+    /**
+     * Get CAS Uid
+     *
+     * @return User
+     */
+    public function getCasUid()
+    {
+        return $this->casUid;
     }
 
     /**

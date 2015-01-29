@@ -12,6 +12,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use phpCAS;
 
 class LoginPagesController extends Controller
 {
@@ -47,7 +48,8 @@ class LoginPagesController extends Controller
 
         return array(
                 'last_username' => $session->get(SecurityContext::LAST_USERNAME),
-                'error'         => $error
+                'error'         => $error,
+                'cas'           => $this->container->hasParameter('cas_host')
         );
     }
 
@@ -145,5 +147,34 @@ class LoginPagesController extends Controller
             'error' => $error,
             'success' => $success,
         );
+    }
+
+    /**
+     * Login with CAS
+     * @Route("/login_cas", name="login_cas")
+     */
+    public function casLoginAction(){
+        phpCAS::setDebug();
+
+        phpCAS::client(CAS_VERSION_2_0, $this->container->getParameter('cas_host'), $this->container->getParameter('cas_port'), $this->container->getParameter('cas_context'));
+
+        if(empty($this->container->getParameter('cas_host'))){
+            phpCAS::setCasServerCACert($this->container->getParameter('cas_server_ca_cert_path'));
+        } else {
+            phpCAS::setNoCasServerValidation();
+        }
+
+        phpCAS::forceAuthentication();
+
+        $casUid = phpCAS::getUser();
+        $user = $this->get('user')->getUserBy( array('casUid' => $casUid));
+
+        if(!$user){
+            throw new AccessDeniedHttpException();
+        }
+        else {
+            $this->get('user')->userLogin($user);
+            return $this->redirect($this->generateUrl("admin"));
+        }
     }
 }

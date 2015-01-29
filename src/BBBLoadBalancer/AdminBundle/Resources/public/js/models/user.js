@@ -5,5 +5,6 @@ Admin.User = DS.Model.extend({
   apiKey: DS.attr('string'),
   timezone: DS.attr('string'),
   password1: DS.attr('string'),
-  password2: DS.attr('string')
+  password2: DS.attr('string'),
+  casUid: DS.attr('string')
 });

@@ -69,7 +69,7 @@ input[type="text"], input[type="email"], input[type="textarea"], input[type="pas
   margin: 2px;
 }
 .api-key{
-  max-width:230px;
+  max-width:170px;
   white-space: pre-wrap; /* css-3 */
   white-space: -moz-pre-wrap; /* Mozilla, since 1999 */
   white-space: -pre-wrap; /* Opera 4-6 */

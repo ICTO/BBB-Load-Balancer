@@ -6,6 +6,9 @@
 		  	<th>Email</th>
 		  	<th>API Key</th>
 		  	<th>Timezone</th>
+		  	{{#if isCasEnabled }}
+		  	<th>CAS UID</th>
+		  	{{/if}}
 		  	<th>Password</th>
 		  	<th>Actions</th>
 	  	</tr>
@@ -36,6 +39,15 @@
   			    	<div>{{user.timezone}}</div>
 		  		{{/if }}
 		  	</td>
+		  	{{#if isCasEnabled }}
+		  	<td>
+				{{#if user.isEditing }}
+		  			{{input type="text" class="form-control" value=user.casUid placeholder="CAS UID" }}
+  			    {{else}}
+  			    	<div><div>{{user.casUid}}</div></div>
+		  		{{/if }}
+		  	</td>
+		  	{{/if}}
 		  	<td>
 				{{#if user.isEditing }}
 		  			{{input type="password" class="form-control" value=user.password1 placeholder="New password" }}
@@ -62,6 +74,11 @@
 		  	<td>
 		  	  {{input type="text" class="form-control" placeholder="Timezone" value=newTimezone }}
 		  	</td>
+		  	{{#if isCasEnabled }}
+		  	<td>
+	  			{{input type="text" class="form-control" value=user.casUid placeholder="CAS UID" }}
+		  	</td>
+		  	{{/if}}
 		  	<td>
 		  	  {{input type="password" class="form-control" value=newPlainPassword1 placeholder="New password" }}
   			  {{input type="password" class="form-control" value=newPlainPassword2 placeholder="Repeat password" }}

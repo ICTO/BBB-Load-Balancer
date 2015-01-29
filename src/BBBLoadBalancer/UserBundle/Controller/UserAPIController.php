@@ -37,6 +37,7 @@ class UserAPIController extends Controller
                 'email' => $active_user->getEmail(),
                 'timezone' => $active_user->getTimezone(),
                 'apiKey' => $active_user->getApiKey(),
+                'casUid' => $active_user->getCasUid(),
             );
             return new JsonResponse($return);
         }
@@ -51,6 +52,7 @@ class UserAPIController extends Controller
                 'email' => $user->getEmail(),
                 'timezone' => $user->getTimezone(),
                 'apiKey' => $user->getApiKey(),
+                'casUid' => $user->getCasUid(),
             );
         }
 
@@ -71,6 +73,7 @@ class UserAPIController extends Controller
         $user->setLastName($data['user']['lastName']);
         $user->setEmail($data['user']['email']);
         $user->setTimezone($data['user']['timezone']);
+        $user->setCasUid($data['user']['casUid']);
 
         if(empty($data['user']['password1']) || empty($data['user']['password2'])){
             throw new ValidatorException("Please enter a password");
@@ -96,6 +99,7 @@ class UserAPIController extends Controller
             'email' => $user->getEmail(),
             'timezone' => $user->getTimezone(),
             'apiKey' => $user->getApiKey(),
+            'casUid' => $user->getCasUid(),
         );
 
         return new JsonResponse($return);
@@ -120,6 +124,7 @@ class UserAPIController extends Controller
         $user->setLastName($data['user']['lastName']);
         $user->setEmail($data['user']['email']);
         $user->setTimezone($data['user']['timezone']);
+        $user->setCasUid($data['user']['casUid']);
 
         // password is set but does not match the repeat password
         if(!empty($data['user']['password1']) || !empty($data['user']['password2'])){
@@ -144,6 +149,7 @@ class UserAPIController extends Controller
             'email' => $user->getEmail(),
             'timezone' => $user->getTimezone(),
             'apiKey' => $user->getApiKey(),
+            'casUid' => $user->getCasUid(),
         );
 
         return new JsonResponse($return);

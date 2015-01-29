@@ -24,7 +24,8 @@ class AdminPagesController extends Controller
         // This page return an EmberJS application
         return array(
             'user' => $user,
-            'timezoneOffset' => $offset
+            'timezoneOffset' => $offset,
+            'cas' => $this->container->hasParameter('cas_host'),
         );
     }
 

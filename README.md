@@ -55,33 +55,8 @@ Edit the config file
 
 	cp app/config/parameters.yml.dist app/config/parameters.yml
 
-Change the bbb.salt value. The salt must be the same on all BBB servers
+Change the bbb.salt value inside the file. The salt must be the same on all BBB servers
 You can also change other values if you like.
-
-```
-parameters:
-    mongo_server: mongodb://localhost:27017
-    mongo_database: BBBLoadBalancer
-
-    mailer_transport: smtp
-    mailer_host: smtp.ugent.be
-    mailer_user: null
-    mailer_password: null
-
-    locale: en
-    secret: ThisTokenIsNotSoSecretChangeIt
-    debug_toolbar: true
-    debug_redirects: false
-    use_assetic_controller: true
-
-    app.site_name: BBB Load Balancer
-    app.domain: domainname.com
-    app.email_name: BBB Load Balancer
-    app.email: test@example.com
-    app.email_noreply: no-reply@example.com
-
-    bbb.salt: thesaltonthebbbservers
-```
 
 Get composer
 
