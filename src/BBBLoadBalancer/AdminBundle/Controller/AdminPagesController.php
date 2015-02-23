@@ -17,8 +17,16 @@ class AdminPagesController extends Controller
      */
     public function adminAction()
     {
+        $user = $this->get('user')->getActiveUser();
+        $timezone = new \DateTimeZone($user->getTimezone());
+        $offset = 0 - ($timezone->getOffset(new \DateTime("now", new \DateTimeZone("UTC")))/60);
+
         // This page return an EmberJS application
-        return array();
+        return array(
+            'user' => $user,
+            'timezoneOffset' => $offset,
+            'cas' => $this->container->hasParameter('cas_host'),
+        );
     }
 
     /**

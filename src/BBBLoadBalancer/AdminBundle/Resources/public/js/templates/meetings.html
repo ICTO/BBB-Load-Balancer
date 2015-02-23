@@ -1,8 +1,10 @@
 <script type="text/x-handlebars" data-template-name="server/meetings">
+	<div {{action 'reloadMeetings'}} class="btn btn-primary btn-xs"><span class="glyphicon glyphicon-refresh" aria-hidden="true"></span></div>
 	<div class="table-responsive">
 	  <table class="table table-hover table-striped">
 	  	<tr>
 		  	<th>Name</th>
+		  	<th>ID</th>
 		  	<th>Created</th>
 		  	<th>Status</th>
 	  	</tr>
@@ -12,6 +14,9 @@
   			    <div>{{meeting.name}}</div>
 		  	</td>
 		  	<td>
+  			    <div>{{meeting.id}}</div>
+		  	</td>
+		  	<td>
   			    <div>{{formatDate meeting.created 'llll'}}</div>
   			</td>
 		  	<td>
@@ -19,7 +24,7 @@
   			    	{{#if meeting.running }}
   			    		<span class="label label-success">Running</span>
 					{{else}}
-						<span class="label label-default">Finished</span>
+						<span class="label label-default">Not running</span>
 					{{/if}}
   			    </div>
 		  	</td>

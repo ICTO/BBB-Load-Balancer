@@ -21,3 +21,9 @@ parameters:
     app.email_noreply: no-reply@example.com
 
     bbb.salt: thesaltonthebbbservers
+
+    # CAS login settings (remove this if not needed)
+    cas_host: example.com
+    cas_context: /cas
+    cas_port: 443
+    cas_server_ca_cert_path: /path/to/cachain.pem

@@ -1,0 +1,12 @@
+{% extends 'BBBLoadBalancerThemeBundle::bootstrap.html.twig' %}
+
+{% block body_class %}error{% endblock %}
+
+{% block content %}
+    <br/>
+    <div class="alert alert-danger" role="alert">
+      <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+      <strong>Error {{ status_code }}: </strong>
+      <span>{{ status_text }}</span>
+    </div>
+{% endblock %}

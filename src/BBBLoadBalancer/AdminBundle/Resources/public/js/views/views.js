@@ -6,5 +6,5 @@ Admin.EditUserFirstNameView = Ember.TextField.extend({
 Ember.Handlebars.helper('edit-user-firstname', Admin.EditUserFirstNameView);
 
 Ember.Handlebars.registerBoundHelper('formatDate', function(date, format) {
-  return moment(date).format(format);
+  return moment(date).zone(timezone_offset).format(format);
 });

@@ -1,12 +1,68 @@
 {
-    "name": "symfony/framework-standard-edition",
+    "name": "brunogoossens/bbbloadbalancer",
     "license": "MIT",
     "type": "project",
-    "description": "The \"Symfony Standard Edition\" distribution",
+    "description": "Load balancer for BigBlueButton servers",
     "autoload": {
-        "psr-0": { "": "src/", "SymfonyStandard": "app/" },
-        "files": ["vendor/brunogoossens/bbb-api-php/includes/bbb-api.php"]
+        "psr-0": { "": "src/", "SymfonyStandard": "app/" }
     },
+    "repositories": [
+        {
+            "type": "package",
+            "package": {
+                "name": "jquery/jquery",
+                "version": "1.11.1",
+                "dist": {
+                    "url": "http://code.jquery.com/jquery-1.11.1.min.js",
+                    "type": "file"
+                }
+            }
+        },
+        {
+            "type": "package",
+            "package": {
+                "name": "ember/ember",
+                "version": "1.9.0",
+                "dist": {
+                    "url": "http://builds.emberjs.com/tags/v1.9.0/ember.min.js",
+                    "type": "file"
+                }
+            }
+        },
+        {
+            "type": "package",
+            "package": {
+                "name": "handlebars/handlebars",
+                "version": "2.0.0",
+                "dist": {
+                    "url": "http://builds.handlebarsjs.com.s3.amazonaws.com/handlebars-v2.0.0.js",
+                    "type": "file"
+                }
+            }
+        },
+        {
+            "type": "package",
+            "package": {
+                "name": "ember/ember-data",
+                "version": "v1.0.0-beta.12",
+                "dist": {
+                    "url": "http://builds.emberjs.com/tags/v1.0.0-beta.12/ember-data.prod.js",
+                    "type": "file"
+                }
+            }
+        },
+        {
+            "type": "package",
+            "package": {
+                "name": "momentjs/momentjs",
+                "version": "dev-master",
+                "dist": {
+                    "url": "http://momentjs.com/downloads/moment.min.js",
+                    "type": "file"
+                }
+            }
+        }
+    ],
     "require": {
         "php": ">=5.3.3",
         "symfony/symfony": "2.5.*",
@@ -20,13 +76,13 @@
         "sensio/framework-extra-bundle": "~3.0",
         "incenteev/composer-parameter-handler": "~2.0",
         "twitter/bootstrap": "3.3.*",
-        "components/jquery": "1.10",
-        "components/handlebars.js": "v2.0.0",
-        "components/ember": "1.9.0-beta.4",
-        "components/ember-data": "1.0.0-beta.12",
+        "jquery/jquery": "1.11.1",
+        "handlebars/handlebars": "2.0.0",
+        "ember/ember": "1.9.0",
+        "ember/ember-data": "v1.0.0-beta.12",
         "eleiva/yii2-noty": "dev-master",
-        "moment/moment": "2.8.*",
-        "brunogoossens/bbb-api-php": "dev-master"
+        "momentjs/momentjs": "dev-master",
+        "jasig/phpcas": "1.3.*@dev"
     },
     "require-dev": {
         "sensio/generator-bundle": "~2.3"
@@ -60,9 +116,6 @@
         "symfony-web-dir": "web",
         "incenteev-parameters": {
             "file": "app/config/parameters.yml"
-        },
-        "branch-alias": {
-            "dev-master": "2.5-dev"
         }
     }
 }

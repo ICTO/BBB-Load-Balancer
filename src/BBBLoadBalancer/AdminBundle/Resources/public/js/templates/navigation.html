@@ -8,12 +8,13 @@
           <span class="icon-bar"></span>
           <span class="icon-bar"></span>
         </button>
-        <a class="navbar-brand" href="#">BBB Load Balancer</a>
+        {{#link-to "servers" class="navbar-brand"}}BBB Load Balancer{{/link-to}}
       </div>
       <div id="navbar" class="navbar-collapse collapse">
         <ul class="nav navbar-nav">
           <li>{{#link-to "servers" activeClass="active"}}Servers{{/link-to}}</li>
           <li>{{#link-to "users" activeClass="active"}}Users{{/link-to}}</li>
+          <li>{{#link-to "api" activeClass="active"}}API{{/link-to}}</li>
         </ul>
         <ul class="nav navbar-nav navbar-right">
           <li class="dropdown">

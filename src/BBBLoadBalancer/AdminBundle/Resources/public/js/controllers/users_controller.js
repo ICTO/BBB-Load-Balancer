@@ -6,6 +6,7 @@ Admin.UsersController = Ember.ObjectController.extend({
   newPlainPassword1: '',
   newPlainPassword2: '',
   isAdding: false,
+  isCasEnabled: cas,
   actions: {
     toggleIsAdding: function() {
       if(this.get('isAdding') == true){

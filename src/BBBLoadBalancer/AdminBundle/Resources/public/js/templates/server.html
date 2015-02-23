@@ -1,4 +1,7 @@
 <script type="text/x-handlebars" data-template-name="server">
-	<h2>{{#link-to "servers" class="btn btn-primary btn-xs" }}<span class="glyphicon glyphicon-arrow-left" aria-hidden="true"></span>{{/link-to}} {{ model.name }}</h2>
+	<h2>
+		{{#link-to "servers" class="btn btn-primary btn-xs" }}<span class="glyphicon glyphicon-arrow-left" aria-hidden="true"></span>{{/link-to}}
+		{{ model.name }}
+	</h2>
 	{{ outlet }}
 </script>

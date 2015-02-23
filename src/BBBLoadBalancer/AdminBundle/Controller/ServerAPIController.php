@@ -10,12 +10,14 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Validator\Exception\ValidatorException;
+use BBBLoadBalancer\UserBundle\Annotations\ValidAPIKey;
 
 class ServerAPIController extends Controller
 {
     /**
-     * @Route("api/servers", name="servers", defaults={"_format": "json"})
+     * @Route("/api/servers", name="servers", defaults={"_format": "json"})
      * @Method({"GET"})
+     * @ValidAPIKey
      */
     public function serversAction(Request $request)
     {
@@ -23,14 +25,14 @@ class ServerAPIController extends Controller
             'servers' => array()
         );
 
-        // return all users
+        // return all servers
         $servers = $this->get('server')->getServersBy(array());
         foreach($servers as $server){
             $return['servers'][] = array(
                 'id' => $server->getId(),
                 'name' => $server->getName(),
                 'url' => $server->getURL(),
-                'up' => false,
+                'up' => $server->getUp(),
                 'enabled' => $server->getEnabled()
             );
         }
@@ -39,8 +41,9 @@ class ServerAPIController extends Controller
     }
 
     /**
-     * @Route("api/servers", name="add_server", defaults={"_format": "json"})
+     * @Route("/api/servers", name="add_server", defaults={"_format": "json"})
      * @Method({"POST"})
+     * @ValidAPIKey
      */
     public function addServerAction(Request $request)
     {
@@ -51,31 +54,26 @@ class ServerAPIController extends Controller
         $server->setName($data['server']['name']);
         $server->setURL($data['server']['url']);
         $server->setEnabled($data['server']['enabled']);
-
-        // validate server
-        $errors = $this->get('validator')->validate($server);
-        if($errors->count()){
-            foreach($errors as $error){
-                throw new ValidatorException($error->getMessage());
-            }
-        }
+        $server->setUp(false);
 
         $this->get('server')->saveServer($server);
+        $this->get('logger')->info("Server added.", array("Server ID" => $server->getId(), "Server URL" => $server->getUrl()));
 
-        $return['user'] = array(
+        $return['server'] = array(
             'id' => $server->getId(),
             'name' => $server->getName(),
             'url' => $server->getURL(),
             'enabled' => $server->getEnabled(),
-            'up' => true,
+            'up' => $server->getUp(),
         );
 
         return new JsonResponse($return);
     }
 
     /**
-     * @Route("api/servers/{id}", name="edit_server", defaults={"_format": "json"})
+     * @Route("/api/servers/{id}", name="edit_server", defaults={"_format": "json"})
      * @Method({"PUT"})
+     * @ValidAPIKey
      */
     public function editServerAction(Request $request, $id)
     {
@@ -91,30 +89,25 @@ class ServerAPIController extends Controller
         $server->setURL($data['server']['url']);
         $server->setEnabled($data['server']['enabled']);
 
-        // validate server
-        $errors = $this->get('validator')->validate($server);
-        if($errors->count()){
-            foreach($errors as $error){
-                throw new ValidatorException($error->getMessage());
-            }
-        }
-
         $this->get('server')->saveServer($server);
+        $this->get('logger')->info("Server edited.", array("Server ID" => $server->getId(), "Server URL" => $server->getUrl()));
+
 
         $return['server'] = array(
             'id' => $server->getId(),
             'name' => $server->getName(),
             'url' => $server->getURL(),
             'enabled' => $server->getEnabled(),
-            'up' => true,
+            'up' => $server->getUp(),
         );
 
         return new JsonResponse($return);
     }
 
     /**
-     * @Route("api/servers/{id}", name="remove_server", defaults={"_format": "json"})
+     * @Route("/api/servers/{id}", name="remove_server", defaults={"_format": "json"})
      * @Method({"DELETE"})
+     * @ValidAPIKey
      */
     public function removeServerAction(Request $request, $id)
     {
@@ -126,43 +119,53 @@ class ServerAPIController extends Controller
             throw new NotFoundHttpException("Server not found");
         }
 
+        $this->get('logger')->info("Server removed.", array("Server ID" => $server->getId(), "Server URL" => $server->getUrl()));
         $this->get('server')->removeServer($server);
 
         return new JsonResponse(array());
     }
 
     /**
-     * @Route("api/meetings", name="meetings", defaults={"_format": "json"})
+     * @Route("/api/meetings", name="meetings", defaults={"_format": "json"})
      * @Method({"GET"})
+     * @ValidAPIKey
      */
     public function meetingsAction(Request $request)
     {
+        $server = $this->get('server')->getServerById($request->get('server_id'));
+
         $return = array(
             'meetings' => array()
         );
 
-        $now = new \DateTime('now', new \DateTimeZone('UTC'));
+        $meetings = $this->get('bbb')->getMeetings($server);
 
-        // debug return
-        return new JsonResponse( array(
-            'meetings' => array(array(
-                'id' => 1,
-                'name' => 'test',
-                'created' => $now->format('c'),
-                'running' => false
+        return new JsonResponse(
+            array(
+                'meetings' => $meetings
             )
-        )));
+        );
+    }
 
-        // return all users
-        $meetings = $this->get('meeting')->getMeetingsBy(array('id' => $request->get('server_id')));
-        foreach($meetings as $meeting){
-            $return['meetings'][] = array(
-                'id' => $meeting->getId(),
-                'name' => $meeting->getName(),
-                'created' => '',
-                'running' => false
-            );
+    /**
+     * @Route("/api/servers/{id}/up", name="server_up_status", defaults={"_format": "json"})
+     * @Method({"GET"})
+     * @ValidAPIKey
+     */
+    public function getServerUpStatusAction(Request $request, $id)
+    {
+        $server = $this->get('server')->getServerById($id);
+
+        if(!$server){
+            throw new NotFoundHttpException("Server not found");
         }
+
+        // try to connect to server
+        $this->get('server')->updateServerUpStatus($server);
+
+        $return = array(
+            'up' => $server->getUp(),
+        );
 
         return new JsonResponse($return);
     }

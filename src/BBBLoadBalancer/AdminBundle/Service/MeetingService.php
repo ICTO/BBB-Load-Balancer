@@ -4,17 +4,20 @@ namespace BBBLoadBalancer\AdminBundle\Service;
 
 use BBBLoadBalancer\AdminBundle\Document\Meeting;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use Symfony\Component\Validator\Exception\ValidatorException;
 
 class MeetingService
 {
     protected $dm;
+    protected $validator;
 
     /**
      * Constructor.
      */
-    public function __construct($dm)
+    public function __construct($dm, $validator)
     {
         $this->dm = $dm->getManager();
+        $this->validator = $validator;
     }
 
     /**
@@ -39,9 +42,28 @@ class MeetingService
     }
 
     /**
+     * Remove meetings from Server
+     */
+    public function removeMeetingsFromServer($server){
+        return $this->dm->createQueryBuilder('BBBLoadBalancerAdminBundle:Meeting')
+                ->remove()
+                ->field('server')->equals($server->getId())
+                ->getQuery()
+                ->execute();
+    }
+
+    /**
      * Save the Meeting
      */
     public function saveMeeting($meeting){
+        // validate meeting
+        $errors = $this->validator->validate($meeting);
+        if($errors->count()){
+            foreach($errors as $error){
+                throw new ValidatorException($error->getMessage());
+            }
+        }
+
         $this->dm->persist($meeting);
         $this->dm->flush();
     }

@@ -1,6 +1,7 @@
 Admin.Router.map(function() {
   this.resource('application', { path: '/' }, function () {
     this.route('users', { path: '/users' });
+    this.route('api', { path: '/api-docs' });
     this.route('servers', { path: '/servers' });
     this.resource('server', { path: '/server/:id' }, function () {
       this.route('meetings', { path: '/meetings' });

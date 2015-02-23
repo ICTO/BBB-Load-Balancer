@@ -28,6 +28,7 @@ class Server
     /**
      * @MongoDB\String
      * @Assert\NotBlank(message = "No URL given")
+     * @Assert\Regex(pattern="/^http:\/\//", message="URL must start with http://")
      */
     protected $url;
 
@@ -36,6 +37,12 @@ class Server
      * @Assert\Type(type="boolean", message="The value for enabled is not valid")
      */
     protected $enabled;
+
+    /**
+     * @MongoDB\Boolean
+     * @Assert\Type(type="boolean", message="The value for up is not valid")
+     */
+    protected $up;
 
     /**
      * Get id
@@ -111,5 +118,27 @@ class Server
     public function getEnabled()
     {
         return $this->enabled;
+    }
+
+    /**
+     * Set up
+     *
+     * @param boolean $up
+     * @return self
+     */
+    public function setUp($up)
+    {
+        $this->up = $up;
+        return $this;
+    }
+
+    /**
+     * Get up
+     *
+     * @return boolean $up
+     */
+    public function getUp()
+    {
+        return $this->up;
     }
 }

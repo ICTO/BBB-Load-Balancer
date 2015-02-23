@@ -1,4 +1,8 @@
 <script type="text/x-handlebars" data-template-name="servers">
+	<div class="alert alert-info" role="alert">
+		<span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span>
+		<span>All servers must be configured with the same salt</span>
+	</div>
 	<div class="table-responsive">
 	  <table class="table table-hover table-striped">
 	  	<tr>
@@ -25,11 +29,19 @@
 		  		{{/if }}
 		  	<td>
   			    <div>
-  			    	{{#if server.up }}
-  			    		<span class="label label-success">Active</span>
-					{{else}}
-						<span class="label label-danger">Down</span>
-					{{/if}}
+  			    	{{#unless server.isEditing }}
+	  			    	{{#if server.isUpdating }}
+	  			    	<div class="spinner">
+	  			    		<span class="glyphicon glyphicon-repeat glyphicon-refresh-animate"></span>
+  			    		</div>
+						{{else}}
+		  			    	{{#if server.up }}
+		  			    		<span class="label label-success">Active</span>
+							{{else}}
+								<span class="label label-danger">Down</span>
+							{{/if}}
+						{{/if}}
+					{{/unless}}
   			    </div>
 		  	</td>
 		  	<td>
@@ -52,7 +64,9 @@
 		  		{{/if }}
 		  	</td>
 		  	<td>
-		  		{{#link-to "server.meetings" server class="btn btn-primary btn-xs" }}List meetings{{/link-to}}
+		  		{{#if server.up }}
+		  			{{#link-to "server.meetings" server class="btn btn-primary btn-xs" }}List meetings{{/link-to}}
+		  		{{/if}}
 		  		<button type="button" class="btn btn-primary btn-xs" {{action "toggleEditServer" on="click"}}>Edit</button>
 		  	</td>
 
