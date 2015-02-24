@@ -43,32 +43,34 @@ Dependencies
 	sudo apt-get install php5-curl
 	sudo apt-get install mongodb
 	sudo apt-get install npm
-	sudo npm install uglifycss -g
-	sudo npm install uglify-js -g
 
 Get the code
 
 	git clone git@github.com:brunogoossens/BBB-Load-Balancer.git /var/www/bbb-load-balancer
 	cd /var/www/bbb-load-balancer
 
+Get NPM packages
+
+	$ npm install
+
 Edit the config file
 
-	cp app/config/parameters.yml.dist app/config/parameters.yml
+	$ cp app/config/parameters.yml.dist app/config/parameters.yml
 
 Change the bbb.salt value inside the file. The salt must be the same on all BBB servers
 You can also change other values if you like.
 
 Get composer
 
-	curl -s https://getcomposer.org/installer | php
+	$ curl -s https://getcomposer.org/installer | php
 
 Update and install packages with composer
 
-	composer update
+	$ composer update
 
 Start server (without apache or nginx)
 
-	app/console server:run --env=prod
+	$ app/console server:run --env=prod
 
 If you want to configure an other server like apache or nginx, you can follow [this](http://symfony.com/doc/current/cookbook/configuration/web_server_configuration.html) guide.
 

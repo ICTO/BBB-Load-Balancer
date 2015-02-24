@@ -1,0 +1,7 @@
+{
+  "name": "BBBLoadBalancer.loc",
+  "dependencies": {
+    "uglify-js": "^2.4.16",
+    "uglifycss": "0.0.11"
+  }
+}
