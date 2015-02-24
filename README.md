@@ -62,9 +62,9 @@ Get composer
 
 	curl -s https://getcomposer.org/installer | php
 
-Update and install packages with composer
+Install packages with composer
 
-	composer update
+	composer install
 
 Start server (without apache or nginx)
 
