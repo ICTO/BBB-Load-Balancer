@@ -88,7 +88,7 @@ class BBBAPIController extends Controller
         $meetingID = $request->get('meetingID');
         $meeting = $this->get('meeting')->getMeetingBy(array('meetingId' => $meetingID));
         if(!$meeting){
-            return errorMeeting($meetingID);
+            return $this->errorMeeting($meetingID);
         }
 
         $server = $meeting->getServer();
@@ -155,7 +155,7 @@ class BBBAPIController extends Controller
         $meetingID = $request->get('meetingID');
         $meeting = $this->get('meeting')->getMeetingBy(array('meetingId' => $meetingID));
         if(!$meeting){
-            return errorMeeting($meetingID);
+            return $this->errorMeeting($meetingID);
         }
 
         $server = $meeting->getServer();
@@ -184,7 +184,7 @@ class BBBAPIController extends Controller
         $meetingID = $request->get('meetingID');
         $meeting = $this->get('meeting')->getMeetingBy(array('meetingId' => $meetingID));
         if(!$meeting){
-            return errorMeeting($meetingID);
+            return $this->errorMeeting($meetingID);
         }
 
         $server = $meeting->getServer();
