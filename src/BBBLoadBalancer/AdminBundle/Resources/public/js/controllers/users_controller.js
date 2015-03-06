@@ -5,6 +5,7 @@ Admin.UsersController = Ember.ObjectController.extend({
   newTimezone: 'Europe/Brussels',
   newPlainPassword1: '',
   newPlainPassword2: '',
+  newCasUid: '',
   isAdding: false,
   isCasEnabled: cas,
   actions: {
@@ -23,6 +24,7 @@ Admin.UsersController = Ember.ObjectController.extend({
       var timezone = this.get('newTimezone');
       var plainPassword1 = this.get('newPlainPassword1');
       var plainPassword2 = this.get('newPlainPassword2');
+      var casUid = this.get('newCasUid');
       var user = this.store.createRecord('user', {
         firstName: firstName,
         lastName: lastName,
@@ -30,6 +32,7 @@ Admin.UsersController = Ember.ObjectController.extend({
         timezone: timezone,
         password1 : plainPassword1,
         password2 : plainPassword2,
+        casUid : casUid
       });
 
       var controller = this;
