@@ -9,9 +9,10 @@ class BBBService
 	/**
      * Constructor.
      */
-    public function __construct($salt)
+    public function __construct($salt, $logger)
     {
         $this->salt = $salt;
+        $this->logger = $logger;
 
         // Setting for BBB api lib
         ini_set("allow_url_fopen", "On");
@@ -58,6 +59,8 @@ class BBBService
         $output = curl_exec($ch);
 
         curl_close($ch);
+
+        $this->logger->debug("Request to BBB Server", array("url" => $url, "output" => $output));
 
         return $output;
 	}
