@@ -14,7 +14,6 @@ The following API methods are currently supported:
 - end
 - isMeetingRunning
 - getMeetingInfo
-- isMeetingRunning
 - getMeetings
 
 The following API methods are currently **NOT** supported:
@@ -77,3 +76,7 @@ If you want to configure an other server like apache or nginx, you can follow [t
 To automatically enable and disable servers based on there status, you can add this cronjob.
 
     * * * * * /path/to/project/app/console bbblb:servers:check --env=prod
+
+To remove stopped meetings from the load balancer.
+
+	* * * * * /path/to/project/app/console bbblb:meetings:cleanup --env=prod

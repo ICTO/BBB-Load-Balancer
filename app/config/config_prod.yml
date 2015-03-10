@@ -16,7 +16,7 @@ monolog:
         applog:
             type:  stream
             path:  "%kernel.logs_dir%/%kernel.environment%_app.log"
-            level: debug
+            level: %app.loglevel%
             channels: app
         main:
             type:         fingers_crossed
