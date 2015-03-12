@@ -80,3 +80,8 @@ To automatically enable and disable servers based on there status, you can add t
 To remove stopped meetings from the load balancer.
 
 	* * * * * /path/to/project/app/console bbblb:meetings:cleanup --env=prod
+
+# Contact #
+
+Issues, feature requests etc. can be created in this issue tracker.
+Help regarding installation and usage can be found at https://groups.google.com/forum/#!forum/bigbluebutton-loadbalancer
