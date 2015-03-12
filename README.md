@@ -81,7 +81,13 @@ To remove stopped meetings from the load balancer.
 
 	* * * * * /path/to/project/app/console bbblb:meetings:cleanup --env=prod
 
+# Adding BBB Servers to the load balancer #
+
+Access the web interface: http://127.0.0.1:8000 (or vhost configured in apache or nginx)
+The first time you access this page, you must create an admin user. After creating this user, you can manage the BBB load balancer. You need to add at least 1 BBB server to the list of servers before you can use the load balancer.
+
 # Contact #
 
 Issues, feature requests etc. can be created in this issue tracker.
+
 Help regarding installation and usage can be found at https://groups.google.com/forum/#!forum/bigbluebutton-loadbalancer
