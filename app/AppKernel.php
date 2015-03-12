@@ -19,6 +19,7 @@ class AppKernel extends Kernel
             new BBBLoadBalancer\AdminBundle\BBBLoadBalancerAdminBundle(),
             new BBBLoadBalancer\ThemeBundle\BBBLoadBalancerThemeBundle(),
             new BBBLoadBalancer\UserBundle\BBBLoadBalancerUserBundle(),
+            new BBBLoadBalancer\BBBBundle\BBBLoadBalancerBBBBundle(),
         );
 
         if (in_array($this->getEnvironment(), array('dev', 'test'))) {

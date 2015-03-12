@@ -2,9 +2,6 @@ services:
     meeting:
         class: BBBLoadBalancer\AdminBundle\Service\MeetingService
         arguments: [ @doctrine_mongodb, @validator ]
-    bbb:
-        class: BBBLoadBalancer\AdminBundle\Service\BBBService
-        arguments: [ %bbb.salt%, @logger ]
     server:
         class: BBBLoadBalancer\AdminBundle\Service\ServerService
         arguments: [ @doctrine_mongodb, @bbb, @validator, @meeting, @logger ]

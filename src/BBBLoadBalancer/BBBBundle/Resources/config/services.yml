@@ -1,0 +1,4 @@
+services:
+    bbb:
+        class: BBBLoadBalancer\BBBBundle\Service\BBBService
+        arguments: [ %bbb.salt%, @logger ]
