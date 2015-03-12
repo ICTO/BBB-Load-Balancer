@@ -65,23 +65,24 @@ Get composer
 
 Update and install packages with composer
 
-	$ composer update
+	$ composer install
 
 Start server (without apache or nginx)
 
 	$ app/console server:run --env=prod
 
 If you want to configure an other server like apache or nginx, you can follow [this](http://symfony.com/doc/current/cookbook/configuration/web_server_configuration.html) guide.
+Make sure if you use a webserver, that it has write access to the app/cache and app/log folders. You can read more about this [here](http://symfony.com/doc/current/book/installation.html). Search the page for "Setting up Permissions".
 
 To automatically enable and disable servers based on there status, you can add this cronjob.
 
     * * * * * /path/to/project/app/console bbblb:servers:check --env=prod
 
-To remove stopped meetings from the load balancer.
+To remove stopped meetings from the load balancer, add this cronjob.
 
 	* * * * * /path/to/project/app/console bbblb:meetings:cleanup --env=prod
 
 # Adding BBB Servers to the load balancer #
 
 Access the web interface: http://127.0.0.1:8000 (or vhost configured in apache or nginx)
-The first time you access this page, you must create an admin user. After creating this user, you can manage the BBB load balancer. You need to add at least 1 BBB server to the list of servers before you can use the load balancer.
+The first time you access this page, you must create an admin user. After creating this user, you can manage the BBB load balancer. You need to add at least 1 BBB server to the list of servers before you can use the load balancer. After setting up the load balancer, you should change your client applications BBB url to the new BBB load balancer URL.
