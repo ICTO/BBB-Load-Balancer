@@ -36,10 +36,8 @@ Dependencies
 
 	php5-common
 	php5-cli
-	php5
 	php5-xcache
 	php5-mongo
-	php5-fpm
 	php5-curl
 	mongodb
 	npm

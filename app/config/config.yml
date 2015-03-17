@@ -37,6 +37,7 @@ twig:
 
 # Assetic Configuration
 assetic:
+    node:           "%sys.path_node%"
     debug:          "%kernel.debug%"
     use_controller: false
     bundles:        [ "BBBLoadBalancerThemeBundle", "BBBLoadBalancerAdminBundle" ]
