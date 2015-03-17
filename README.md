@@ -45,10 +45,10 @@ Dependencies
 	git
 	curl
 
-Get the code
+Get the code (change the destination)
 
-	$ git clone https://github.com/brunogoossens/BBB-Load-Balancer.git /var/www/bbb-load-balancer
-	$ cd /var/www/bbb-load-balancer
+	$ git clone https://github.com/brunogoossens/BBB-Load-Balancer.git /path/of/project
+	$ cd /path/of/project
 
 Get NPM packages
 
@@ -78,11 +78,11 @@ Make sure if you use a webserver, that it has write access to the app/cache and 
 
 To automatically enable and disable servers based on there status, you can add this cronjob.
 
-    * * * * * /path/to/project/app/console bbblb:servers:check --env=prod
+    * * * * * /path/of/project/app/console bbblb:servers:check --env=prod
 
 To remove stopped meetings from the load balancer, add this cronjob.
 
-	* * * * * /path/to/project/app/console bbblb:meetings:cleanup --env=prod
+	* * * * * /path/of/project/app/console bbblb:meetings:cleanup --env=prod
 
 # Adding BBB Servers to the load balancer #
 
@@ -94,7 +94,7 @@ The first time you access this page, you must create an admin user. After creati
 
 So we added cool new features to the repository but you have deployed old code. You should do the following commands to get the newest code.
 
-	$ cd /var/www/bbb-load-balancer
+	$ cd /path/of/project/bbb-load-balancer
 	$ git pull
 	$ app/console cache:clear --env=prod
 	$ app/console assets:install
