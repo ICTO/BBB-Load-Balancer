@@ -95,7 +95,7 @@ The first time you access this page, you must create an admin user. After creati
 So we added cool new features to the repository but you have deployed old code. You should do the following commands to get the newest code.
 
 	$ cd /path/of/project/bbb-load-balancer
-	$ git pull
+	$ git pull origin master
 	$ app/console cache:clear --env=prod
 	$ app/console assets:install
 	$ app/console assetic:dump --env=prod
