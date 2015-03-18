@@ -14,6 +14,8 @@ parameters:
     debug_redirects: false
     use_assetic_controller: true
 
+    sys.path_node: node
+
     app.site_name: BBB Load Balancer
     app.domain: domainname.com
     app.email_name: BBB Load Balancer

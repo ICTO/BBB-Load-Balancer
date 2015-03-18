@@ -1,3 +1,8 @@
+bbb_load_balancer_bbb:
+    resource: "@BBBLoadBalancerBBBBundle/Controller/"
+    type:     annotation
+    prefix:   /
+
 bbb_load_balancer_theme:
     resource: "@BBBLoadBalancerThemeBundle/Controller/"
     type:     annotation

@@ -1,1 +1,1 @@
-[{{ { 'message': exception.message }|json_encode|raw }}]
+[{{ { 'status_text': status_text, 'message': exception.message }|json_encode|raw }}]

@@ -1,6 +1,6 @@
 <?php
 
-namespace BBBLoadBalancer\AdminBundle\Service;
+namespace BBBLoadBalancer\BBBBundle\Service;
 
 class BBBService
 {

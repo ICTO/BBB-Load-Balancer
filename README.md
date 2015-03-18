@@ -34,19 +34,21 @@ You can use a chef recipe to setup your server or setup a vagrant box.
 
 Dependencies
 
-	sudo apt-get install php5-common
-	sudo apt-get install php5
-	sudo apt-get install php5-xcache
-	sudo apt-get install php5-mongo
-	sudo apt-get install php5-fpm
-	sudo apt-get install php5-curl
-	sudo apt-get install mongodb
-	sudo apt-get install npm
+	php5-common
+	php5-cli
+	php5-xcache
+	php5-mongo
+	php5-curl
+	mongodb
+	npm
+	node
+	git
+	curl
 
-Get the code
+Get the code (change the destination)
 
-	git clone git@github.com:brunogoossens/BBB-Load-Balancer.git /var/www/bbb-load-balancer
-	cd /var/www/bbb-load-balancer
+	$ git clone https://github.com/brunogoossens/BBB-Load-Balancer.git /path/of/project
+	$ cd /path/of/project
 
 Get NPM packages
 
@@ -56,7 +58,7 @@ Edit the config file
 
 	$ cp app/config/parameters.yml.dist app/config/parameters.yml
 
-Change the bbb.salt value inside the file. The salt must be the same on all BBB servers
+Change the bbb.salt value inside the new file. The salt must be the same on all BBB servers
 You can also change other values if you like.
 
 Get composer
@@ -65,26 +67,37 @@ Get composer
 
 Install packages with composer
 
-	composer install
+	$ ./composer.phar install
 
 Start server (without apache or nginx)
 
 	$ app/console server:run --env=prod
 
 If you want to configure an other server like apache or nginx, you can follow [this](http://symfony.com/doc/current/cookbook/configuration/web_server_configuration.html) guide.
+Make sure if you use a webserver, that it has write access to the app/cache and app/log folders. You can read more about this [here](http://symfony.com/doc/current/book/installation.html). Search the page for "Setting up Permissions".
 
 To automatically enable and disable servers based on there status, you can add this cronjob.
 
-    * * * * * /path/to/project/app/console bbblb:servers:check --env=prod
+    * * * * * /path/of/project/app/console bbblb:servers:check --env=prod
 
-To remove stopped meetings from the load balancer.
+To remove stopped meetings from the load balancer, add this cronjob.
 
-	* * * * * /path/to/project/app/console bbblb:meetings:cleanup --env=prod
+	* * * * * /path/of/project/app/console bbblb:meetings:cleanup --env=prod
 
 # Adding BBB Servers to the load balancer #
 
-Access the web interface: http://127.0.0.1:8000 (or vhost configured in apache or nginx)
-The first time you access this page, you must create an admin user. After creating this user, you can manage the BBB load balancer. You need to add at least 1 BBB server to the list of servers before you can use the load balancer.
+The first time you access this page, you must create an admin user. After creating this user, you can manage the BBB load balancer. You need to add at least 1 BBB server to the list of servers before you can use the load balancer. After setting up the load balancer, you should change your client applications BBB url to the new BBB load balancer URL.
+(http://127.0.0.1/bigbluebutton)
+
+# Updating the loadbalancer #
+
+So we added cool new features to the repository but you have deployed old code. You should do the following commands to get the newest code.
+
+	$ cd /path/of/project/bbb-load-balancer
+	$ git pull
+	$ app/console cache:clear --env=prod
+	$ app/console assets:install
+	$ app/console assetic:dump --env=prod
 
 # Contact #
 
