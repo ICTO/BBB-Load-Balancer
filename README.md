@@ -41,7 +41,7 @@ Dependencies
 	php5-curl
 	mongodb
 	npm
-	node
+	nodejs
 	git
 	curl
 
