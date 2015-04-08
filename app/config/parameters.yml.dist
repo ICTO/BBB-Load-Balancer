@@ -2,6 +2,9 @@
 parameters:
     mongo_server: mongodb://localhost:27017
     mongo_database: BBBLoadBalancer
+    mongo_replicaset: ~
+    mongo_username: ~
+    mongo_password: ~
 
     mailer_transport: smtp
     mailer_host: smtp.ugent.be
