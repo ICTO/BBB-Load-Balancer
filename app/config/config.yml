@@ -66,7 +66,10 @@ doctrine_mongodb:
     connections:
         default:
             server: "%mongo_server%"
-            options: {}
+            options:
+                replicaSet: "%mongo_replicaset%"
+                username: "%mongo_username%"
+                password: "%mongo_password%"
     default_database: "%mongo_database%"
     document_managers:
         default:

@@ -2,6 +2,9 @@
 parameters:
     mongo_server: mongodb://localhost:27017
     mongo_database: BBBLoadBalancer
+    mongo_replicaset: ~
+    mongo_username: ~
+    mongo_password: ~
 
     mailer_transport: smtp
     mailer_host: smtp.ugent.be
@@ -25,8 +28,9 @@ parameters:
 
     bbb.salt: thesaltonthebbbservers
 
-    # CAS login settings (remove this if not needed)
-    cas_host: example.com
-    cas_context: /cas
-    cas_port: 443
-    cas_server_ca_cert_path: /path/to/cachain.pem
+    # CAS login settings
+    
+    #cas_host: example.com
+    #cas_context: /cas
+    #cas_port: 443
+    #cas_server_ca_cert_path: /path/to/cachain.pem
