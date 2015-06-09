@@ -12,6 +12,7 @@ use Symfony\Component\Validator\Exception\ValidatorException;
 class BBBAPIController extends Controller
 {
     /**
+     * @Route("/bigbluebutton", defaults={"_format": "xml"})
      * @Route("/bigbluebutton/api", defaults={"_format": "xml"})
      * @Method({"GET"})
      */
