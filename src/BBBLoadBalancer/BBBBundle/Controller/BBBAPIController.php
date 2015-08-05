@@ -177,16 +177,10 @@ class BBBAPIController extends Controller
     }
 
     /**
-     * This function handles all api calls that require no specific logic in the load balancer.
-     * They check where the meeting is running, send the api call to that server and return the
-     * response to the service using the load balancer.
-     *
      * @Route("/bigbluebutton/api/getMeetingInfo", defaults={"_format": "xml"})
-     * @Route("/bigbluebutton/api/getDefaultConfigXML", defaults={"_format": "xml"})
-     * @Route("/bigbluebutton/api/setConfigXML", defaults={"_format": "xml"})
      * @Method({"GET"})
      */
-    public function apiProxyAction(Request $request)
+    public function getMeetingInfoAction(Request $request)
     {
         $meetingID = $request->get('meetingID');
         $meeting = $this->get('meeting')->getMeetingBy(array('meetingId' => $meetingID));
@@ -196,8 +190,8 @@ class BBBAPIController extends Controller
 
         $server = $meeting->getServer();
 
-        $config_url = $server->getUrl() . $this->get('bbb')->cleanUri($request->getRequestUri());
-        $return = $this->get('bbb')->doRequest($config_url);
+        $info_url = $server->getUrl() . $this->get('bbb')->cleanUri($request->getRequestUri());
+        $return = $this->get('bbb')->doRequest($info_url);
 
         if(!$return){
             return $this->errorResponse($server);
@@ -281,6 +275,24 @@ class BBBAPIController extends Controller
      * @Method({"GET"})
      */
     public function deleteRecordingsAction(Request $request)
+    {
+        // @TODO : not yet supported
+    }
+
+    /**
+     * @Route("/bigbluebutton/api/getDefaultConfigXML.xml", defaults={"_format": "xml"})
+     * @Method({"GET"})
+     */
+    public function getDefaultConfigXMLAction(Request $request)
+    {
+        // @TODO : not yet supported
+    }
+
+    /**
+     * @Route("/bigbluebutton/api/setConfigXML.xml", defaults={"_format": "xml"})
+     * @Method({"GET"})
+     */
+    public function setConfigXMLAction(Request $request)
     {
         // @TODO : not yet supported
     }
