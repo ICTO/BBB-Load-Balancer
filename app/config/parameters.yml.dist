@@ -27,6 +27,7 @@ parameters:
     app.loglevel: info #set to debug for more logging
 
     bbb.salt: thesaltonthebbbservers
+    bbb.configfile_path: /tmp/config.xml
 
     # CAS login settings
     

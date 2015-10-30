@@ -277,6 +277,63 @@ class BBBAPIController extends Controller
     }
 
     /**
+     * @Route("/bigbluebutton/api/getDefaultConfigXML", defaults={"_format": "xml"})
+     * @Method({"GET"})
+     */
+    public function getDefaultConfigXMLAction(Request $request)
+    {
+        // Get default config file.
+        $this->get('logger')->debug("*getDefaultConfigXML");
+        $xml=file_get_contents($this->container->getParameter('bbb.configfile_path'));
+        $response = new Response($xml);
+        $response->headers->set('Content-Type', 'text/xml');
+        return $response;
+    }
+
+    /**
+     * @Route("/bigbluebutton/api/setConfigXML", defaults={"_format": "xml"})
+     * @Method({"GET", "POST", "OPTIONS"})
+     */
+    public function setConfigXMLAction(Request $request)
+    {
+        // Get the meetingID and send setConfigXML to right server.
+        $salt = $this->container->getParameter('bbb.salt');
+        $meetingID = $request->get('meetingID');
+        $checksum = $request->get('checksum');
+        $configXML = $request->get('configXML');
+
+        $this->get('logger')->debug("*setConfigXML");
+        $this->get('logger')->debug("***************");
+        $this->get('logger')->debug("DATA:", array("meetingID" => $meetingID ) );
+        $this->get('logger')->debug("DATA:", array("checksum" =>  $checksum ) );
+        $this->get('logger')->debug("DATA:", array("configXML" => $configXML ) );
+        $this->get('logger')->debug("DATA:", array("output" => $output) );
+
+        $meeting = $this->get('meeting')->getMeetingBy(array('meetingId' => $meetingID));
+        if(!$meeting) {
+            return $this->errorMeeting($output['meetingID']);
+        } else {
+            $server = $meeting->getServer();
+
+            $newconfigXML = str_replace("_LBHOST_", $server->getName(), $configXML);
+            $this->get('logger')->debug("DATA:", array("newconfigXML" => $newconfigXML));
+
+            $data = "configXML=" . urlencode($newconfigXML) . "&meetingID=" . $meetingID;
+            $chkstring ="setConfigXML" . $data;
+            $newchecksum = sha1($chkstring . $salt);
+            $this->get('logger')->debug("DATA:", array("Orig Checksum" => $checksum));
+            $this->get('logger')->debug("DATA:", array("New Checksum" => $newchecksum));
+
+            $postUrl = $server->getUrl() . "/bigbluebutton/api/setConfigXML?" . $data . "&checksum=" . $newchecksum;
+
+            $return = $this->get('bbb')->doPostRequest($postUrl, $data);
+            $response = new Response($return);
+        }
+        $response->headers->set('Content-Type', 'text/xml');
+        return $response;
+    }
+
+    /**
      * @Route("/bigbluebutton/api/deleteRecordings", defaults={"_format": "xml"})
      * @Method({"GET"})
      */
