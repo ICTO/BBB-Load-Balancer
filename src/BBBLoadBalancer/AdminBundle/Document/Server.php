@@ -28,7 +28,7 @@ class Server
     /**
      * @MongoDB\String
      * @Assert\NotBlank(message = "No URL given")
-     * @Assert\Regex(pattern="/^http:\/\//", message="URL must start with http://")
+     * @Assert\Regex(pattern="/^(http|https):\/\//", message="URL must start with http:// or https://")
      */
     protected $url;
 
